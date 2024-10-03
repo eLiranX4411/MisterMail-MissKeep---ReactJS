@@ -1,0 +1,26 @@
+/* Main Setup */
+@import './setup/variables.css';
+@import './setup/typography.css';
+@import './setup/mq.css';
+
+/* Main Basics */
+@import './basics/base.css';
+@import './basics/helpers.css';
+@import './basics/layout.css';
+
+/* Main Pages */
+@import './pages/home.css';
+
+/* Main Cmps */
+@import './cmps/UserMsg.css';
+@import './cmps/AppHeader.css';
+@import './cmps/AppLoader.css';
+@import './cmps/LongTxtCSS.css';
+
+/* Apps Pages */
+@import './apps/note/pages/NoteIndex.css';
+@import './apps/mail/pages/MailIndex.css';
+
+/* Apps Cmps */
+@import './apps/mail/cmps/MailList.css';
+@import './apps/note/cmps/NoteList.css';
