@@ -12,9 +12,9 @@ export function Home() {
   return (
     <section className='home'>
       <button onClick={onActivate}>Activate</button>
-      <h1 ref={h1Ref}>Welcome to App sus by Eliran Zohar & Michael Flaysher</h1>
+      <h2 ref={h1Ref}>Welcome to Appsy by Eliran Zohar & Michael Flaysher</h2>
 
-      {/* Added icons from fontawesome*/}
+      {/* Some icons from fontawesome*/}
       <div>
         <i className='fas fa-house'></i>
         <i className='fas fa-cat'></i>
@@ -23,3 +23,12 @@ export function Home() {
     </section>
   )
 }
+
+// Promise animate css
+// function onActivate() {
+//   // console.log('h1Ref:', h1Ref)
+//   animateCSS(h1Ref.current, 'rubberBand')
+//       .then(() => {
+//           return animateCSS(imgRef.current, 'bounceOut', false)
+//       })
+// }
