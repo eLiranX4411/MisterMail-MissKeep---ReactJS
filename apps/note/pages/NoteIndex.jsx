@@ -5,7 +5,7 @@ import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/eve
 import { noteService } from '../../../apps/note/services/note.service.js'
 import { getTruthyValues } from '../../../services/util.service.js'
 
-export function MailIndex() {
+export function NoteIndex() {
   const [note, setNotes] = useState(null)
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
