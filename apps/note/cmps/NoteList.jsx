@@ -4,7 +4,7 @@ export function NoteList({ notes, onRemoveNote }) {
   return (
     <section className='notes-list'>
       {notes.map((note) => (
-        <NotePreview notes={note} key={note.id} onRemoveNote={onRemoveNote} />
+        <NotePreview note={note} key={note.id} onRemoveNote={onRemoveNote} />
       ))}
     </section>
   )

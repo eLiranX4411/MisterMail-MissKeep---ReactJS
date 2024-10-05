@@ -17,24 +17,24 @@ export const noteService = {
 var gNotes = [
   {
     id: 'n101',
-    createdAt: 1112222,
+    createdAt: Date.now(),
     type: 'NoteTxt',
     isPinned: true,
     style: {
       backgroundColor: '#00d'
     },
     info: {
-      txt: 'Fullstack Me Baby!'
+      txt: 'Fullstack Txt Me Baby!'
     }
   },
   {
     id: 'n102',
-    createdAt: 1112223,
+    createdAt: Date.now(),
     type: 'NoteImg',
     isPinned: false,
     info: {
       url: 'http://some-img/me',
-      title: 'Bobi and Me'
+      title: 'Img me'
     },
     style: {
       backgroundColor: '#00d'
@@ -42,7 +42,7 @@ var gNotes = [
   },
   {
     id: 'n103',
-    createdAt: 1112224,
+    createdAt: Date.now(),
     type: 'NoteTodos',
     isPinned: false,
     info: {
@@ -51,6 +51,19 @@ var gNotes = [
         { txt: 'Driving license', doneAt: null },
         { txt: 'Coding power', doneAt: 187111111 }
       ]
+    }
+  },
+  {
+    id: 'n104',
+    createdAt: Date.now(),
+    type: 'NoteVideo',
+    isPinned: false,
+    info: {
+      url: 'http://some-img/me',
+      title: 'Video me'
+    },
+    style: {
+      backgroundColor: '#00d'
     }
   }
 ]
