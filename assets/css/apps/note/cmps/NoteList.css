@@ -1,1 +1,11 @@
-/* note list */
+/* note list css */
+
+.notes-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}

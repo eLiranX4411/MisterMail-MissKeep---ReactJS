@@ -11,7 +11,8 @@ export const noteService = {
   save,
   getDefaultFilter,
   getFilterFromSearchParams,
-  debounce
+  debounce,
+  getEmptyNote
 }
 
 var gNotes = [
@@ -109,6 +110,16 @@ function getDefaultFilter() {
   return {
     title: '',
     type: ''
+  }
+}
+
+function getEmptyNote() {
+  return {
+    title: '',
+    txt: '',
+    img: '', // url
+    video: '', // url
+    todos: []
   }
 }
 
