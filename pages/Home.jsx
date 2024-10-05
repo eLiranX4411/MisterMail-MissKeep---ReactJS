@@ -12,7 +12,7 @@ export function Home() {
   return (
     <section className='home'>
       <button onClick={onActivate}>Activate</button>
-      <h2 ref={h1Ref}>Welcome to Appsy by Eliran Zohar & Michael Flaysher</h2>
+      <h2 ref={h1Ref}>Welcome to Appsy</h2>
 
       {/* Some icons from fontawesome*/}
       <div>

@@ -4,7 +4,7 @@ export function AppHeader() {
   return (
     <header className='app-header'>
       <Link to='/'>
-        <img className='appsy-logo' src='./assets/img/appsy.png' alt='' />
+        <img className='appsy-logo' src='../assets/img/Appsy.png' alt='' />
         <h4 className='appsy'>Appsy</h4>
       </Link>
       <nav>

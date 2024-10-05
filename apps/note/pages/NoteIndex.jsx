@@ -1,12 +1,18 @@
+// Hooks
 const { useState, useEffect, useRef } = React
 const { Link, useSearchParams } = ReactRouterDOM
 
+// Services
 import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/event-bus.service.js'
 import { noteService } from '../../../apps/note/services/note.service.js'
 import { getTruthyValues } from '../../../services/util.service.js'
 
+// Cmps
+import { NoteList } from '../../../apps/note/cmps/NoteList.jsx'
+import { AppLoader } from '../../../cmps/AppLoader.jsx'
+
 export function NoteIndex() {
-  const [note, setNotes] = useState(null)
+  const [notes, setNotes] = useState(null)
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
 
@@ -40,5 +46,12 @@ export function NoteIndex() {
   function onSetFilterBy(filterBy) {
     setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
   }
-  return <div>notes app</div>
+
+  if (!notes) return <AppLoader />
+
+  return (
+    <section className='note-index'>
+      <NoteList notes={notes} onRemoveNote={onRemoveNote} />
+    </section>
+  )
 }
