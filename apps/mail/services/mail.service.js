@@ -1,8 +1,7 @@
 import { loadFromStorage, makeId, saveToStorage } from '../../../services/util.service.js'
 import { storageService } from '../../../services/async-storage.service.js'
 
-const MAIL_KEY = 'mailDB'
-_createMails()
+const MAIL_KEY = 'mailsDB'
 
 export const mailService = {
   query,
@@ -12,39 +11,28 @@ export const mailService = {
   getEmptyMail,
   getDefaultFilter,
   getFilterFromSearchParams,
-  debounce
+  debounce,
 }
 
 const loggedinUser = {
   email: 'user@appsus.com',
-  fullname: 'Mahatma Appsus'
-}
-
-const mail = {
-  id: 'e101',
-  createdAt: 1551133930500,
-  subject: 'Miss you!',
-  body: 'Would love to catch up sometimes',
-  isRead: false,
-  sentAt: 1551133930594,
-  removedAt: null,
-  from: 'momo@momo.com',
-  to: 'user@appsus.com'
-}
-
-const filterBy = {
-  status: 'inbox/sent/trash/draft',
-  txt: 'puki', // no need to support complex text search
-  isRead: true, // (optional property, if missing: show all)
-  isStared: true, // (optional property, if missing: show all)
-  lables: ['important', 'romantic'] // has any of the labels
+  fullname: 'Mahatma Appsus',
 }
 
 function query(filterBy = {}) {
   return storageService.query(MAIL_KEY).then((mails) => {
     if (filterBy.txt) {
       const regExp = new RegExp(filterBy.txt, 'i')
-      mails = mails.filter((mail) => regExp.test(mail.subject))
+      mails = mails.filter((mail) => regExp.test(mail.subject) || regExp.test(mail.body))
+    }
+    if (filterBy.status) {
+      mails = mails.filter((mail) => mail.status === filterBy.status)
+    }
+    if (filterBy.isRead !== undefined) {
+      mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
+    }
+    if (filterBy.isStarred !== undefined) {
+      mails = mails.filter((mail) => mail.isStarred === filterBy.isStarred)
     }
     return mails
   })
@@ -55,7 +43,6 @@ function get(mailId) {
 }
 
 function remove(mailId) {
-  // return Promise.reject('Oh No!')
   return storageService.remove(MAIL_KEY, mailId)
 }
 
@@ -63,38 +50,49 @@ function save(mail) {
   if (mail.id) {
     return storageService.put(MAIL_KEY, mail)
   } else {
+    mail.id = makeId()
+    mail.createdAt = Date.now()
+    mail.from = loggedinUser.email
     return storageService.post(MAIL_KEY, mail)
   }
 }
 
-function getEmptyMail(subject = '') {
-  return { subject }
+function getEmptyMail(subject = '', body = '') {
+  return {
+    id: '',
+    createdAt: null,
+    subject,
+    body,
+    sentAt: null,
+    from: loggedinUser.email,
+    to: '',
+    status: 'draft',
+    isRead: false,
+    readAt: null,
+    removedAt: null,
+    isStarred: false,
+  }
 }
 
 function getDefaultFilter() {
   return {
-    txt: ''
+    txt: '',
+    status: '',
+    isRead: undefined,
+    isStarred: undefined,
   }
-}
-
-function _createMails() {
-  let mails = loadFromStorage(MAIL_KEY)
-  if (!mails || !mails.length) {
-    mails = [_createMail('hey i am a mail text')]
-    saveToStorage(MAIL_KEY, mails)
-  }
-}
-
-function _createMail(subject) {
-  const mail = getEmptyMail(subject)
-  mail.id = makeId()
-  return mail
 }
 
 function getFilterFromSearchParams(searchParams) {
   const txt = searchParams.get('txt') || ''
+  const status = searchParams.get('status') || ''
+  const isRead = searchParams.get('isRead') ? searchParams.get('isRead') === 'true' : undefined
+  const isStarred = searchParams.get('isStarred') ? searchParams.get('isStarred') === 'true' : undefined
   return {
-    txt
+    txt,
+    status,
+    isRead,
+    isStarred,
   }
 }
 

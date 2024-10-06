@@ -3,6 +3,7 @@ const { Link, useSearchParams } = ReactRouterDOM
 
 import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/event-bus.service.js'
 import { mailService } from '../../../apps/mail/services/mail.service.js'
+import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService.js'
 import { getTruthyValues } from '../../../services/util.service.js'
 
 export function MailIndex() {
