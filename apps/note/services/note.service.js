@@ -9,7 +9,6 @@ export const noteService = {
   get,
   remove,
   save,
-  getDefaultFilter,
   getFilterFromSearchParams,
   debounce,
   getEmptyNote
@@ -78,11 +77,11 @@ function query(filterBy = {}) {
 
     if (filterBy.title) {
       const regex = new RegExp(filterBy.title, 'i')
-      notes = notes.filter((note) => regex.test(note.title))
+      notes = notes.filter((note) => regex.test(note.info.title))
     }
 
     if (filterBy.type) {
-      notes = notes.filter((note) => note.type >= filterBy.type)
+      notes = notes.filter((note) => note.type === filterBy.type)
     }
 
     return notes
@@ -90,7 +89,7 @@ function query(filterBy = {}) {
 }
 
 function get(noteId) {
-  return storageService.get(NOTE_KEY, noteId).then((note) => _setNextPrevNoteId(note))
+  return storageService.get(NOTE_KEY, noteId)
 }
 
 function remove(noteId) {
@@ -106,19 +105,13 @@ function save(note) {
   }
 }
 
-function getDefaultFilter() {
-  return {
-    title: '',
-    type: ''
-  }
-}
-
 function getEmptyNote() {
   return {
+    type: '',
     title: '',
     txt: '',
-    img: '', // url
-    video: '', // url
+    img: null,
+    video: null,
     todos: []
   }
 }
@@ -228,6 +221,13 @@ function _createTodoNote(type) {
   const note = getEmptyTodoNote(type)
   note.id = makeId()
   return note
+}
+
+function getDefaultFilter() {
+  return {
+    title: '',
+    type: ''
+  }
 }
 
 */

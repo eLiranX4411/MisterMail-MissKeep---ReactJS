@@ -1,4 +1,4 @@
-export function NoteImg({ note, onRemoveNote }) {
+export function NoteImg({ note }) {
   return (
     <section className='note-img-container'>
       <div className='note-img-card'>

@@ -1,4 +1,4 @@
-export function NoteVideo({ note, onRemoveNote }) {
+export function NoteVideo({ note }) {
   return (
     <section className='note-video-container'>
       <div className='note-video-card'>

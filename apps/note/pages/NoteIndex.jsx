@@ -20,8 +20,6 @@ export function NoteIndex() {
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
 
-  console.log(notes)
-
   useEffect(() => {
     loadNotes()
     setSearchPrms(getTruthyValues(filterBy))
@@ -71,7 +69,7 @@ export function NoteIndex() {
         <nav className='notes-nav-bar'>
           <div className='notes-logo'></div>
           <section className='notes-filter'>
-            <NotesFilter />
+            <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
           </section>
         </nav>
       </header>

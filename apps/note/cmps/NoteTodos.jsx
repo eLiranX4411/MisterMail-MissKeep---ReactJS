@@ -1,4 +1,4 @@
-export function NoteTodos({ note, onRemoveNote }) {
+export function NoteTodos({ note }) {
   return (
     <section className='note-todos-container'>
       <div className='note-todos-card'>
@@ -6,7 +6,9 @@ export function NoteTodos({ note, onRemoveNote }) {
 
         {note.info.todos.map((todo, idx) => (
           <ul key={idx}>
-            <li className='todo-txt'>{todo.txt}</li>
+            <li className='todo-txt'>
+              <input type='checkbox' name='todos' id='todos' /> {todo.txt}
+            </li>
           </ul>
         ))}
       </div>

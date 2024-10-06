@@ -1,4 +1,4 @@
-export function NoteTxt({ note, onRemoveNote }) {
+export function NoteTxt({ note }) {
   //   console.log('note:', note)
 
   return (

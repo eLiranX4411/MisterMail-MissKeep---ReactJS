@@ -7,12 +7,14 @@ const { useState } = React
 
 export function NotePreview({ note, onRemoveNote }) {
   const [cmpType, setCmpType] = useState(note.type)
-  //   console.log(cmpType)
 
   return (
     <section className='notes-preview'>
       <DynamicCmp cmpType={cmpType} note={note} onRemoveNote={onRemoveNote} />
       <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+      <button>Pin</button>
+      <button>Duplicate</button>
+      <button>Edit</button>
     </section>
   )
 }
