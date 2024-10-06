@@ -5,14 +5,17 @@ import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/eve
 import { mailService } from '../../../apps/mail/services/mail.service.js'
 import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService.js'
 import { getTruthyValues } from '../../../services/util.service.js'
+import { FilteredMailTable } from '../cmps/FilteredMailTable.jsx'
 
 export function MailIndex() {
-  const [mail, setMails] = useState(null)
+  const [mails, setMails] = useState([])
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchPrms))
 
   useEffect(() => {
-    loadMails()
+    mailLoaderService.loadInitialMails().then(() => {
+      loadMails()
+    })
     setSearchPrms(getTruthyValues(filterBy))
   }, [filterBy])
 
@@ -30,7 +33,7 @@ export function MailIndex() {
       .remove(mailId)
       .then(() => {
         setMails((mails) => mails.filter((mail) => mail.id !== mailId))
-        showSuccessMsg(`Note removed successfully!`)
+        showSuccessMsg(`Mail removed successfully!`)
       })
       .catch((err) => {
         console.log('Problems removing mail:', err)
@@ -41,5 +44,48 @@ export function MailIndex() {
   function onSetFilterBy(filterBy) {
     setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
   }
-  return <div>mail app</div>
+
+  return (
+    <div>
+      <details open>
+        <summary>All Mails</summary>
+        <FilteredMailTable filterMethod='query' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Sent Mails</summary>
+        <FilteredMailTable filterMethod='getSentMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Received Mails</summary>
+        <FilteredMailTable filterMethod='getReceivedMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Unread Mails</summary>
+        <FilteredMailTable filterMethod='getUnreadMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Readed Mails</summary>
+        <FilteredMailTable filterMethod='getReadedMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Starred Mails</summary>
+        <FilteredMailTable filterMethod='getStarredMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Draft Mails</summary>
+        <FilteredMailTable filterMethod='getDraftMails' onRemoveMail={onRemoveMail} />
+      </details>
+
+      <details>
+        <summary>Trash Mails</summary>
+        <FilteredMailTable filterMethod='getTrashMails' onRemoveMail={onRemoveMail} />
+      </details>
+    </div>
+  )
 }

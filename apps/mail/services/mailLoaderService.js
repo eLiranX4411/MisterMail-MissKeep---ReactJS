@@ -131,8 +131,16 @@ function _createMails(count) {
     const createdAt = Date.now() - Math.floor(Math.random() * 10000000000)
     const sentAt = randomStatus === 'draft' ? null : createdAt + Math.floor(Math.random() * 100000)
     const readAt = Math.random() > 0.7 ? createdAt + Math.floor(Math.random() * 100000) : null
-    const from = isInbox ? senders[Math.floor(Math.random() * senders.length)] : 'user@appsus.com'
-    const to = from === 'user@appsus.com' ? senders[Math.floor(Math.random() * senders.length)] : 'user@appsus.com'
+    let from, to
+
+    if (isInbox) {
+      from = senders[Math.floor(Math.random() * senders.length)]
+      to = 'user@appsus.com'
+    } else {
+      from = 'user@appsus.com'
+      to = senders[Math.floor(Math.random() * senders.length)]
+    }
+
     const labels = Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () => labelsList[Math.floor(Math.random() * labelsList.length)])
 
     return {

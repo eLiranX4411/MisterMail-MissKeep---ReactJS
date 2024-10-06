@@ -12,6 +12,17 @@ export const mailService = {
   getDefaultFilter,
   getFilterFromSearchParams,
   debounce,
+  getSentMails,
+  getReceivedMails,
+  getDraftMails,
+  getTrashMails,
+  getUnreadMails,
+  getStarredMails,
+  getMailsByLabel,
+  setFilter,
+  getFilter,
+  clearFilter,
+  getReadedMails,
 }
 
 const loggedinUser = {
@@ -19,20 +30,31 @@ const loggedinUser = {
   fullname: 'Mahatma Appsus',
 }
 
-function query(filterBy = {}) {
+let filterBy = {
+  txt: '',
+  status: '',
+  isRead: undefined,
+  isStarred: undefined,
+}
+
+function query(customFilterBy = {}) {
+  const activeFilter = { ...filterBy, ...customFilterBy }
   return storageService.query(MAIL_KEY).then((mails) => {
-    if (filterBy.txt) {
-      const regExp = new RegExp(filterBy.txt, 'i')
+    if (activeFilter.txt) {
+      const regExp = new RegExp(activeFilter.txt, 'i')
       mails = mails.filter((mail) => regExp.test(mail.subject) || regExp.test(mail.body))
     }
-    if (filterBy.status) {
-      mails = mails.filter((mail) => mail.status === filterBy.status)
+    if (activeFilter.status) {
+      mails = mails.filter((mail) => mail.status === activeFilter.status)
     }
-    if (filterBy.isRead !== undefined) {
-      mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
+    if (activeFilter.isRead !== undefined) {
+      mails = mails.filter((mail) => mail.isRead === activeFilter.isRead && mail.status !== 'trash')
     }
-    if (filterBy.isStarred !== undefined) {
-      mails = mails.filter((mail) => mail.isStarred === filterBy.isStarred)
+    if (activeFilter.isStarred !== undefined) {
+      mails = mails.filter((mail) => mail.isStarred === activeFilter.isStarred && mail.status !== 'trash')
+    }
+    if (activeFilter.labels) {
+      mails = mails.filter((mail) => mail.labels.includes(activeFilter.labels) && mail.status !== 'trash')
     }
     return mails
   })
@@ -71,6 +93,7 @@ function getEmptyMail(subject = '', body = '') {
     readAt: null,
     removedAt: null,
     isStarred: false,
+    labels: [],
   }
 }
 
@@ -115,4 +138,49 @@ function debounce(func, delay) {
       func(...args)
     }, delay)
   }
+}
+
+// New functions for easier mail filtering
+function getSentMails() {
+  return query({ status: 'sent', from: loggedinUser.email })
+}
+
+function getReceivedMails() {
+  return query({ status: 'inbox', to: loggedinUser.email })
+}
+
+function getDraftMails() {
+  return query({ status: 'draft' })
+}
+
+function getTrashMails() {
+  return query({ status: 'trash' })
+}
+
+function getUnreadMails() {
+  return query({ isRead: false, statusNot: 'trash' })
+}
+
+function getReadedMails() {
+  return query({ isRead: true, statusNot: 'trash' })
+}
+
+function getStarredMails() {
+  return query({ isStarred: true, statusNot: 'trash' })
+}
+
+function getMailsByLabel(label) {
+  return query({ labels: label, statusNot: 'trash' })
+}
+
+function setFilter(newFilter) {
+  filterBy = { ...filterBy, ...newFilter }
+}
+
+function getFilter() {
+  return { ...filterBy }
+}
+
+function clearFilter() {
+  filterBy = getDefaultFilter()
 }
