@@ -1,7 +1,7 @@
 const { useState, useEffect } = React
 import { mailService } from '../../../apps/mail/services/mail.service.js'
 import { LongTxt } from '../../../cmps/LongTxt.jsx'
-import './MailPreview.css'
+import '../../../assets/css/apps/mail/cmps/mail-preview.css'
 
 export function MailPreview({ mailId, onStarMail, onRemoveMail }) {
   const [mail, setMail] = useState(null)
@@ -20,6 +20,20 @@ export function MailPreview({ mailId, onStarMail, onRemoveMail }) {
       })
   }
 
+  function formatDateOrTime(createdAt) {
+    const mailDate = new Date(createdAt)
+    const today = new Date()
+
+    const isToday = mailDate.getDate() === today.getDate() && mailDate.getMonth() === today.getMonth() && mailDate.getFullYear() === today.getFullYear()
+
+    return isToday ? mailDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : mailDate.toLocaleDateString('en-GB')
+  }
+
+  function renderSenderOrRecipient() {
+    const isSentByUser = mail.from === 'user@appsus.com'
+    return isSentByUser ? `To: ${mail.to}` : `From: ${mail.from}`
+  }
+
   if (!mail) return <div>Loading...</div>
 
   return (
@@ -32,14 +46,14 @@ export function MailPreview({ mailId, onStarMail, onRemoveMail }) {
       <td className='icon-star' onClick={() => onStarMail(mail.id)}>
         {mail.isStarred ? '⭐' : '☆'}
       </td>
-      <td className='sender'>{mail.from}</td>
+      <td className='sender-recipient'>{renderSenderOrRecipient()}</td>
       <td className='subject'>
         <LongTxt txt={mail.subject} length={20} onlyShort={true} />
       </td>
       <td className='body'>
         <LongTxt txt={mail.body} length={30} onlyShort={true} />
       </td>
-      <td className='date'>{new Date(mail.createdAt).toLocaleDateString('en-GB')}</td>
+      <td className='date'>{formatDateOrTime(mail.createdAt)}</td>
       <td className='actions'>
         {isHovered && (
           <div>

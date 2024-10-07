@@ -124,7 +124,7 @@ function _createMails(count) {
 
   const labelsList = ['important', 'work', 'personal', 'promotions', 'social', 'updates', 'finance', 'travel', 'romantic', 'family']
 
-  return Array.from({ length: count }, (_, index) => {
+  const mails = Array.from({ length: count }, (_, index) => {
     const isInbox = Math.random() > 0.5
     const statuses = ['inbox', 'sent', 'trash', 'draft']
     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
@@ -159,4 +159,19 @@ function _createMails(count) {
       labels,
     }
   })
+
+  const today = new Date()
+  for (let i = 0; i < 20; i++) {
+    const randomIdx = Math.floor(Math.random() * mails.length)
+    const originalCreatedAt = new Date(mails[randomIdx].createdAt)
+
+    const hours = originalCreatedAt.getHours()
+    const minutes = originalCreatedAt.getMinutes()
+    const seconds = originalCreatedAt.getSeconds()
+
+    const updatedDate = new Date(today.setHours(hours, minutes, seconds))
+    mails[randomIdx].createdAt = updatedDate.getTime()
+  }
+
+  return mails
 }

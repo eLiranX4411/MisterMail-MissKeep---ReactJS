@@ -23,6 +23,8 @@ export const mailService = {
   getFilter,
   clearFilter,
   getReadedMails,
+  sortMailsByDateDesc,
+  sortMailsByDateAsc,
 }
 
 const loggedinUser = {
@@ -55,6 +57,12 @@ function query(customFilterBy = {}) {
     }
     if (activeFilter.labels) {
       mails = mails.filter((mail) => mail.labels.includes(activeFilter.labels) && mail.status !== 'trash')
+    }
+    if (activeFilter.to) {
+      mails = mails.filter((mail) => mail.to === activeFilter.to)
+    }
+    if (activeFilter.from) {
+      mails = mails.filter((mail) => mail.from === activeFilter.from)
     }
     return mails
   })
@@ -140,37 +148,44 @@ function debounce(func, delay) {
   }
 }
 
-// New functions for easier mail filtering
 function getSentMails() {
-  return query({ status: 'sent', from: loggedinUser.email })
+  return query({ status: 'sent', from: loggedinUser.email }).then(sortMailsByDateDesc)
 }
 
 function getReceivedMails() {
-  return query({ status: 'inbox', to: loggedinUser.email })
+  return query({ status: 'inbox', to: loggedinUser.email }).then(sortMailsByDateDesc)
 }
 
 function getDraftMails() {
-  return query({ status: 'draft' })
+  return query({ status: 'draft', from: loggedinUser.email }).then(sortMailsByDateDesc)
 }
 
 function getTrashMails() {
-  return query({ status: 'trash' })
+  return query({ status: 'trash' }).then(sortMailsByDateDesc)
 }
 
 function getUnreadMails() {
-  return query({ isRead: false, statusNot: 'trash' })
+  return query({ isRead: false, status: 'inbox', to: loggedinUser.email }).then(sortMailsByDateDesc)
 }
 
 function getReadedMails() {
-  return query({ isRead: true, statusNot: 'trash' })
+  return query({ isRead: true, status: 'inbox', to: loggedinUser.email }).then(sortMailsByDateDesc)
 }
 
 function getStarredMails() {
-  return query({ isStarred: true, statusNot: 'trash' })
+  return query({ isStarred: true, status: 'inbox' }).then(sortMailsByDateDesc)
 }
 
 function getMailsByLabel(label) {
-  return query({ labels: label, statusNot: 'trash' })
+  return query({ labels: label, statusNot: 'trash' }).then(sortMailsByDateDesc)
+}
+
+function sortMailsByDateDesc(mails) {
+  return mails.sort((a, b) => b.createdAt - a.createdAt)
+}
+
+function sortMailsByDateAsc(mails) {
+  return mails.sort((a, b) => a.createdAt - b.createdAt)
 }
 
 function setFilter(newFilter) {
