@@ -1,23 +1,56 @@
-/* note index css */
-
-.notes-index {
-  font-family: Roboto;
-  background-color: #f1f3f4;
+/* Full-Width Header */
+.notes-nav-bar {
+  width: 100vw;
   display: flex;
+  justify-content: start;
+  align-items: center;
+
+  gap: 5em;
+
+  padding: 1rem 2rem;
+  background-color: var(--note-primary1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+/* Hamburger Icon */
+.hamburger-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.hamburger-icon-close {
+  font-size: 24px;
+  cursor: pointer;
+  margin-inline: 1rem;
+}
+
+/* Side Menu - Initially Hidden */
 .notes-menu-container {
   width: 250px;
-  background-color: #fff;
+  background-color: var(--note-primary1);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
+  display: none;
   flex-direction: column;
-  padding-top: 1rem;
+  padding-top: 1em;
   overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 150;
 }
 
+/* Show Side Menu when Menu is Open */
+.notes-index .notes-menu-container {
+  display: flex;
+}
+
+/* Menu Items */
 .notes-menu {
-  list-style: none;
   padding: 0;
   margin: 0;
 }
@@ -28,7 +61,7 @@
 
 .notes-menu li a {
   text-decoration: none;
-  color: #5f6368;
+  color: var(--note-primary3);
   font-size: 1rem;
   font-weight: 500;
   padding: 0.75rem 1rem;
@@ -43,46 +76,11 @@
   color: var(--note-primary6);
 }
 
+/* Notes Body */
 .notes-body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   padding: 2rem;
   overflow-y: auto;
-}
-
-.notes-nav-bar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.notes-logo {
-  width: 40px;
-  height: 40px;
-  background-size: cover;
-  background-position: center;
-  background-image: url('../../../../../apps/note/img/missKeep.png'); /* Replace with logo image */
-}
-
-.notes-filter input {
-  border: 1px solid #dadce0;
-  border-radius: 24px;
-  padding: 0.5rem 1rem;
-  width: 300px;
-  font-size: 1rem;
-  outline: none;
-
-  margin-inline: 1em;
-}
-
-.notes-filter input:focus {
-  border-color: #1a73e8;
 }

@@ -11,10 +11,12 @@ export function NotePreview({ note, onRemoveNote }) {
   return (
     <section className='notes-preview'>
       <DynamicCmp cmpType={cmpType} note={note} onRemoveNote={onRemoveNote} />
-      <button onClick={() => onRemoveNote(note.id)}>Remove</button>
-      <button>Pin</button>
-      <button>Duplicate</button>
-      <button>Edit</button>
+      <div className='notes-actions'>
+        <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+        <button>Pin</button>
+        <button>Duplicate</button>
+        <button>Edit</button>
+      </div>
     </section>
   )
 }

@@ -4,54 +4,29 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
-  padding: 20px;
+  padding: 1em;
   justify-content: flex-start;
 }
 
 .notes-preview {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: fit-content;
   padding: 1em;
+
+  background-color: var(--note-primary1);
+  border-radius: 8px;
+}
+
+.notes-preview:hover .notes-actions {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.notes-preview button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: var(--note-primary2);
-  border: none;
-  border-radius: 4px;
-  color: #202124;
-  cursor: pointer;
-}
-
-.notes-preview button:hover {
-  background-color: var(--note-primary4);
-}
-
-.note-txt-container {
-  margin-bottom: 1em;
-}
-
-.note-txt-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.note-txt-title {
-  font-weight: bold;
-  font-size: 1rem;
-  color: #3c4043;
-  margin-block-end: 0.5em;
-}
-
-.note-txt-text {
-  font-size: 0.8rem;
-  color: var(--note-primary3);
+.notes-actions {
+  display: none;
 }
 
 .notes-preview:hover {

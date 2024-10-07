@@ -19,6 +19,7 @@ export function NoteIndex() {
   const [notes, setNotes] = useState(null)
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     loadNotes()
@@ -51,36 +52,49 @@ export function NoteIndex() {
     setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
   }
 
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   if (!notes) return <AppLoader />
 
   return (
     <main className='notes-index'>
-      <aside className='notes-menu-container'>
-        <ul className='notes-menu'>
-          <li className='notes'>
-            <a href='#' className='active'>
-              Notes
-            </a>
-          </li>
-          <li className='reminders'>
-            <a href='#'>Home</a>
-          </li>
-        </ul>
-      </aside>
-
-      <div className='notes-main-content'>
-        <header className='notes-nav-bar'>
+      {/* Hamburger Icon */}
+      <header className='notes-nav-bar'>
+        <div className='notes-header-left'>
+          <div className='hamburger-icon' onClick={toggleMenu}>
+            &#9776; {/* This is the hamburger icon */}
+          </div>
           <div className='notes-logo'></div>
-          <section className='notes-filter'>
-            <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-          </section>
-        </header>
-
-        <section className='notes-body'>
-          <AddNote />
-          <NoteList notes={notes} onRemoveNote={onRemoveNote} />
+        </div>
+        <section className='notes-filter'>
+          <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
         </section>
-      </div>
+      </header>
+
+      {/* Side Menu */}
+      {isMenuOpen && (
+        <section className='notes-menu-container'>
+          <div className='hamburger-icon-close' onClick={toggleMenu}>
+            &#9776; {/* This is the hamburger icon */}
+          </div>
+          <ul className='notes-menu'>
+            <li className='notes'>
+              <Link to='/'>Home</Link>
+            </li>
+            <li className='notes-home'>
+              <Link to='/note'>Notes</Link>
+            </li>
+          </ul>
+        </section>
+      )}
+
+      {/* Notes Body */}
+      <section className='notes-body'>
+        <AddNote />
+        <NoteList notes={notes} onRemoveNote={onRemoveNote} />
+      </section>
     </main>
   )
 }
