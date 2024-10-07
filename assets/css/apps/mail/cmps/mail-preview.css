@@ -1,0 +1,97 @@
+/* MailPreview Component Styles */
+
+.mail-preview {
+  display: table-row;
+  border: 1px solid black;
+  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.mail-preview.read {
+  background-color: #f9f9f9;
+}
+
+.mail-preview.unread {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.mail-preview:hover {
+  border: 2px solid #007bff;
+  background-color: #e0f7fa;
+}
+
+.mail-preview .icon-star {
+  padding: 0.625rem;
+  color: #ffc107;
+  cursor: pointer;
+  text-align: center;
+}
+
+.mail-preview .icon-star:hover {
+  color: #ff9800;
+}
+
+.mail-preview .sender-recipient,
+.mail-preview .subject,
+.mail-preview .body,
+.mail-preview .date,
+.mail-preview .actions {
+  padding: 0.625rem;
+  text-align: left;
+}
+
+.mail-preview .sender-recipient {
+  font-size: 0.875rem;
+  color: #333;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.mail-preview .subject p {
+  font-size: 0.875rem;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 0.625rem;
+  color: #333;
+}
+
+.mail-preview .body p {
+  font-size: 0.75rem;
+  font-weight: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 0.625rem;
+  color: #888;
+}
+
+.mail-preview .actions {
+  text-align: center;
+  visibility: hidden;
+  background-color: inherit;
+}
+
+.mail-preview:hover .actions {
+  visibility: visible;
+}
+
+.mail-preview .date {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+.mail-preview .actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mail-preview .actions button:hover {
+  transform: scale(1.1);
+}

@@ -1,44 +1,29 @@
-const { useState, useEffect, useRef } = React
-const { Link, useSearchParams } = ReactRouterDOM
-
-import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/event-bus.service.js'
-import { mailService } from '../../../apps/mail/services/mail.service.js'
-import { getTruthyValues } from '../../../services/util.service.js'
+const { useState, useEffect } = React
+import { FilteredMailTable } from '../cmps/FilteredMailTable.jsx'
 
 export function MailIndex() {
-  const [mail, setMails] = useState(null)
-  const [searchPrms, setSearchPrms] = useSearchParams()
-  const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchPrms))
+  const [activeFilter, setActiveFilter] = useState('all')
 
-  useEffect(() => {
-    loadMails()
-    setSearchPrms(getTruthyValues(filterBy))
-  }, [filterBy])
-
-  function loadMails() {
-    mailService
-      .query(filterBy)
-      .then(setMails)
-      .catch((err) => {
-        console.log('Problems getting mail:', err)
-      })
+  function onSetFilterBy(filter) {
+    setActiveFilter(filter)
   }
 
-  function onRemoveMail(mailId) {
-    mailService
-      .remove(mailId)
-      .then(() => {
-        setMails((mails) => mails.filter((mail) => mail.id !== mailId))
-        showSuccessMsg(`Note removed successfully!`)
-      })
-      .catch((err) => {
-        console.log('Problems removing mail:', err)
-        showErrorMsg(`Problems removing mail (${mailId})`)
-      })
-  }
+  return (
+    <div className='mail-index-container'>
+      <div className='filter-buttons'>
+        <button onClick={() => onSetFilterBy('all')}>All Mails</button>
+        <button onClick={() => onSetFilterBy('sent')}>Sent Mails</button>
+        <button onClick={() => onSetFilterBy('received')}>Received Mails</button>
+        <button onClick={() => onSetFilterBy('unread')}>Unread Mails</button>
+        <button onClick={() => onSetFilterBy('readed')}>Readed Mails</button>
+        <button onClick={() => onSetFilterBy('starred')}>Starred Mails</button>
+        <button onClick={() => onSetFilterBy('draft')}>Draft Mails</button>
+        <button onClick={() => onSetFilterBy('trash')}>Trash Mails</button>
+      </div>
 
-  function onSetFilterBy(filterBy) {
-    setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
-  }
-  return <div>mail app</div>
+      <div className='mail-table'>
+        <FilteredMailTable activeFilter={activeFilter} />
+      </div>
+    </div>
+  )
 }
