@@ -35,6 +35,10 @@ export function NoteIndex() {
       })
   }
 
+  function handleAddNote(newNote) {
+    setNotes((prevNotes) => [...prevNotes, newNote])
+  }
+
   function onRemoveNote(noteId) {
     noteService
       .remove(noteId)
@@ -64,7 +68,7 @@ export function NoteIndex() {
       <header className='notes-nav-bar'>
         <div className='notes-header-left'>
           <div className='hamburger-icon' onClick={toggleMenu}>
-            &#9776; {/* This is the hamburger icon */}
+            &#9776; {/* hamburger icon */}
           </div>
           <div className='notes-logo'></div>
         </div>
@@ -77,7 +81,7 @@ export function NoteIndex() {
       {isMenuOpen && (
         <section className='notes-menu-container'>
           <div className='hamburger-icon-close' onClick={toggleMenu}>
-            &#9776; {/* This is the hamburger icon */}
+            &#9776; {/* hamburger icon */}
           </div>
           <ul className='notes-menu'>
             <li className='notes'>
@@ -92,7 +96,7 @@ export function NoteIndex() {
 
       {/* Notes Body */}
       <section className='notes-body'>
-        <AddNote />
+        <AddNote handleAddNote={handleAddNote} />
         <NoteList notes={notes} onRemoveNote={onRemoveNote} />
       </section>
     </main>

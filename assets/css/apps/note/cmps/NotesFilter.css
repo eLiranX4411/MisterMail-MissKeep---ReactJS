@@ -1,5 +1,5 @@
 .notes-filter input {
-  width: 30em;
+  width: 35rem;
   background-color: var(--note-primary2);
   border: 2px solid var(--note-primary2);
   border-radius: 0.4em;
@@ -9,8 +9,9 @@
 }
 
 .notes-filter input:focus {
-  border: none;
   outline: none;
+  border: 3px solid var(--note-primary2);
+  background-color: var(--note-primary1);
 }
 
 .notes-filter select {

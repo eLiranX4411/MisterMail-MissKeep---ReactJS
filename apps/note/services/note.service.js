@@ -19,7 +19,7 @@ var gNotes = [
     id: 'n101',
     createdAt: Date.now(),
     type: 'NoteTxt',
-    isPinned: true,
+    isPinned: false,
     style: {
       backgroundColor: '#00d'
     },
@@ -107,12 +107,15 @@ function save(note) {
 
 function getEmptyNote() {
   return {
-    type: '',
-    title: '',
-    txt: '',
-    img: null,
-    video: null,
-    todos: []
+    createdAt: Date.now(),
+    type: 'NoteTxt',
+    isPinned: false,
+    style: {
+      backgroundColor: '#00d'
+    },
+    info: {
+      txt: ''
+    }
   }
 }
 
@@ -123,17 +126,6 @@ function getFilterFromSearchParams(searchParams) {
     type,
     title
   }
-}
-
-function _setNextPrevNoteId(note) {
-  return query().then((notes) => {
-    const noteIdx = notes.findIndex((currNote) => currNote.id === note.id)
-    const nextNote = notes[noteIdx + 1] ? notes[noteIdx + 1] : notes[0]
-    const prevNote = notes[noteIdx - 1] ? notes[noteIdx - 1] : notes[notes.length - 1]
-    note.nextNotelId = nextNote.id
-    note.prevNoteId = prevNote.id
-    return note
-  })
 }
 
 function debounce(func, delay) {
@@ -228,6 +220,17 @@ function getDefaultFilter() {
     title: '',
     type: ''
   }
+}
+
+function _setNextPrevNoteId(note) {
+  return query().then((notes) => {
+    const noteIdx = notes.findIndex((currNote) => currNote.id === note.id)
+    const nextNote = notes[noteIdx + 1] ? notes[noteIdx + 1] : notes[0]
+    const prevNote = notes[noteIdx - 1] ? notes[noteIdx - 1] : notes[notes.length - 1]
+    note.nextNotelId = nextNote.id
+    note.prevNoteId = prevNote.id
+    return note
+  })
 }
 
 */

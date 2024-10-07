@@ -2,43 +2,71 @@ import { noteService } from '../../../apps/note/services/note.service.js'
 
 const { useState, useEffect, useRef } = React
 
-export function AddNote() {
+export function AddNote({ handleAddNote }) {
   const [noteData, setNoteData] = useState(noteService.getEmptyNote())
   const [isExpanded, setIsExpanded] = useState(false)
 
-  function handleChange({ target }) {
-    const evName = target.name
-    const evValue = target.value
+  useEffect(() => {
+    loadNote()
+  }, [])
 
-    setNoteData((prevNote) => ({ ...prevNote, [evName]: evValue }))
+  function loadNote() {
+    noteService
+      .get(noteData)
+      .then(setNoteData)
+      .catch((err) => {
+        console.log('Problem getting note', err)
+      })
   }
 
   function handleExpand() {
     setIsExpanded(true)
   }
 
-  function handleAddNote() {
-    console.log('Adding note:', noteData)
+  function handleChange({ target }) {
+    const evName = target.name
+    const evValue = target.value
+    setNoteData((prevNote) => ({
+      ...prevNote,
+      info: { ...prevNote.info, [evName]: evValue }
+    }))
   }
 
+  // function handleTypeChange(type) {
+  //   setNoteData((prevNote) => ({ ...prevNote, type }))
+  // }
+
+  function onAddNote(ev) {
+    ev.preventDefault()
+    noteService
+      .save(noteData)
+      .then((newNote) => {
+        handleAddNote(newNote)
+      })
+      .catch((err) => {
+        console.log('Error adding note:', err)
+      })
+  }
+
+  const { info } = noteData
+  const { txt } = info
+
   return (
-    <section className='add-note'>
+    <form onSubmit={onAddNote} className='add-note'>
       <div className={`add-note-container ${isExpanded ? 'expanded' : ''}`}>
         {isExpanded ? (
           <React.Fragment>
-            <input type='text' name='title' placeholder='Title' value={noteData.title} onChange={handleChange} className='add-note-title' />
-            <textarea name='text' placeholder='Take a note...' value={noteData.text} onChange={handleChange} className='add-note-text' />
-            <input type='file' accept='image/*' className='add-note-image' />
-            <div className='add-note-btn-container'>
-              <button className='add-note-btn' onClick={handleAddNote}>
-                Add Note
-              </button>
-            </div>
+            <input type='text' name='title' placeholder='Title' className='add-note-title' />
+            <textarea name='txt' placeholder='Take a note...' value={txt} onChange={handleChange} className='add-note-text' />
+            {/* <input type='file' accept='image/*' className='add-note-image' /> */}
+            <button type='submit' className='add-note-btn'>
+              Add Note
+            </button>
           </React.Fragment>
         ) : (
           <input type='text' placeholder='Take a note...' className='add-note-placeholder' onClick={handleExpand} />
         )}
       </div>
-    </section>
+    </form>
   )
 }
