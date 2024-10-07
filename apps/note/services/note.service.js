@@ -19,12 +19,13 @@ var gNotes = [
     id: 'n101',
     createdAt: Date.now(),
     type: 'NoteTxt',
-    isPinned: false,
+    isPinned: true,
     style: {
       backgroundColor: '#00d'
     },
     info: {
-      txt: 'Fullstack Txt Me Baby!'
+      title: 'Fullstack',
+      txt: 'Me Baby!'
     }
   },
   {
@@ -44,7 +45,7 @@ var gNotes = [
     id: 'n103',
     createdAt: Date.now(),
     type: 'NoteTodos',
-    isPinned: false,
+    isPinned: true,
     info: {
       title: 'Get my stuff together',
       todos: [
@@ -114,6 +115,7 @@ function getEmptyNote() {
       backgroundColor: '#00d'
     },
     info: {
+      title: '',
       txt: ''
     }
   }

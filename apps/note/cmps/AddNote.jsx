@@ -23,18 +23,19 @@ export function AddNote({ handleAddNote }) {
     setIsExpanded(true)
   }
 
+  function resetInputs() {
+    setNoteData(noteService.getEmptyNote())
+  }
+
   function handleChange({ target }) {
     const evName = target.name
     const evValue = target.value
+
     setNoteData((prevNote) => ({
       ...prevNote,
       info: { ...prevNote.info, [evName]: evValue }
     }))
   }
-
-  // function handleTypeChange(type) {
-  //   setNoteData((prevNote) => ({ ...prevNote, type }))
-  // }
 
   function onAddNote(ev) {
     ev.preventDefault()
@@ -42,6 +43,7 @@ export function AddNote({ handleAddNote }) {
       .save(noteData)
       .then((newNote) => {
         handleAddNote(newNote)
+        resetInputs()
       })
       .catch((err) => {
         console.log('Error adding note:', err)
@@ -49,14 +51,14 @@ export function AddNote({ handleAddNote }) {
   }
 
   const { info } = noteData
-  const { txt } = info
+  const { txt, title } = info
 
   return (
     <form onSubmit={onAddNote} className='add-note'>
       <div className={`add-note-container ${isExpanded ? 'expanded' : ''}`}>
         {isExpanded ? (
           <React.Fragment>
-            <input type='text' name='title' placeholder='Title' className='add-note-title' />
+            <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
             <textarea name='txt' placeholder='Take a note...' value={txt} onChange={handleChange} className='add-note-text' />
             {/* <input type='file' accept='image/*' className='add-note-image' /> */}
             <button type='submit' className='add-note-btn'>

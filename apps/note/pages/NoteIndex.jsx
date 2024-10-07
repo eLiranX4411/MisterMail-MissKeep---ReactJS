@@ -9,6 +9,8 @@ import { getTruthyValues } from '../../../services/util.service.js'
 
 // Cmps
 import { NoteList } from '../../../apps/note/cmps/NoteList.jsx'
+import { PinnedNoteList } from '../../../apps/note/cmps/PinnedNoteList.jsx'
+import { NoteDisplay } from '../../../apps/note/cmps/NoteDisplay.jsx'
 import { AppLoader } from '../../../cmps/AppLoader.jsx'
 import { AddNote } from '../../../apps/note/cmps/AddNote.jsx'
 
@@ -49,6 +51,27 @@ export function NoteIndex() {
       .catch((err) => {
         console.log('Problems removing note:', err)
         showErrorMsg(`Problems removing note (${noteId})`)
+      })
+  }
+
+  function onPinnedNote(noteId) {
+    const noteIdx = notes.find((note) => note.id === noteId)
+
+    if (!noteIdx) {
+      showErrorMsg(`Note not found (${noteId})`)
+      return
+    }
+    const updatedNote = { ...noteIdx, isPinned: !noteIdx.isPinned }
+
+    noteService
+      .save(updatedNote)
+      .then(() => {
+        setNotes((Notes) => Notes.map((note) => (note.id === noteId ? updatedNote : note)))
+        showSuccessMsg(`Note ${updatedNote.isPinned ? 'pinned' : 'unpinned'} successfully!`)
+      })
+      .catch((err) => {
+        console.log('Problems pinning the note:', err)
+        showErrorMsg(`Problems pinning the note (${noteId})`)
       })
   }
 
@@ -97,7 +120,7 @@ export function NoteIndex() {
       {/* Notes Body */}
       <section className='notes-body'>
         <AddNote handleAddNote={handleAddNote} />
-        <NoteList notes={notes} onRemoveNote={onRemoveNote} />
+        <NoteDisplay notes={notes} onRemoveNote={onRemoveNote} onPinnedNote={onPinnedNote} />
       </section>
     </main>
   )
