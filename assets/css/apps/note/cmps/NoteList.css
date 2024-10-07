@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  width: fit-content;
+  min-width: 250px;
   padding: 1em;
 
   background-color: var(--note-primary1);
@@ -23,6 +23,7 @@
 .notes-preview:hover .notes-actions {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .notes-actions {

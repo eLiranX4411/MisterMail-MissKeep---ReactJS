@@ -16,16 +16,17 @@ svg {
 
 html,
 body {
+  font-family: Roboto;
   height: 100%;
   width: 100%;
-  font-size: 400;
+  font-weight: 400;
+  font-size: 0.8rem;
   margin: 0;
   padding: 0;
   /* overflow-x: hidden; */
 }
 
 body {
-  font-family: Lato-Black;
   list-style: none;
 }
 
