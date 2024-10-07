@@ -55,29 +55,32 @@ export function NoteIndex() {
 
   return (
     <main className='notes-index'>
-      <header className='notes-index-header'>
-        <section className='notes-menu-container'>
-          <ul className='notes-menu'>
-            <li className='notes'>
-              <a href=''>notes</a>
-            </li>
-            <li className='notes-home'>
-              <a href=''>home</a>
-            </li>
-          </ul>
-        </section>
-        <nav className='notes-nav-bar'>
+      <aside className='notes-menu-container'>
+        <ul className='notes-menu'>
+          <li className='notes'>
+            <a href='#' className='active'>
+              Notes
+            </a>
+          </li>
+          <li className='reminders'>
+            <a href='#'>Home</a>
+          </li>
+        </ul>
+      </aside>
+
+      <div className='notes-main-content'>
+        <header className='notes-nav-bar'>
           <div className='notes-logo'></div>
           <section className='notes-filter'>
             <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
           </section>
-        </nav>
-      </header>
+        </header>
 
-      <section className='notes-body'>
-        <AddNote />
-        <NoteList notes={notes} onRemoveNote={onRemoveNote} />
-      </section>
+        <section className='notes-body'>
+          <AddNote />
+          <NoteList notes={notes} onRemoveNote={onRemoveNote} />
+        </section>
+      </div>
     </main>
   )
 }

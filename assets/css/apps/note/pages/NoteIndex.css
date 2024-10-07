@@ -1,13 +1,88 @@
 /* note index css */
 
-.notes-filter {
+.notes-index {
+  font-family: Roboto;
+  background-color: #f1f3f4;
   display: flex;
-  justify-content: center;
 }
 
-.add-note {
+.notes-menu-container {
+  width: 250px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  padding-top: 1rem;
+  overflow-y: auto;
+}
 
-  margin-block: 2em 2em;
+.notes-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notes-menu li {
+  margin: 1rem 0;
+}
+
+.notes-menu li a {
+  text-decoration: none;
+  color: #5f6368;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  display: block;
+  transition: background-color 0.3s;
+  border-radius: 0 24px 24px 0;
+}
+
+.notes-menu li a:hover,
+.notes-menu li a.active {
+  background-color: var(--note-primary7);
+  color: var(--note-primary6);
+}
+
+.notes-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.notes-nav-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.notes-logo {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../../../../../apps/note/img/missKeep.png'); /* Replace with logo image */
+}
+
+.notes-filter input {
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  padding: 0.5rem 1rem;
+  width: 300px;
+  font-size: 1rem;
+  outline: none;
+
+  margin-inline: 1em;
+}
+
+.notes-filter input:focus {
+  border-color: #1a73e8;
 }
