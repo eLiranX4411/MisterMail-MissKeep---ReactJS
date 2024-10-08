@@ -1,67 +1,97 @@
-const { useState, useEffect } = React
-import { mailService } from '../../../apps/mail/services/mail.service.js'
+const { useEffect, useState } = React
 import { LongTxt } from '../../../cmps/LongTxt.jsx'
-import '../../../assets/css/apps/mail/cmps/mail-preview.css'
+import { mailService } from '../services/mail.service.js'
 
-export function MailPreview({ mailId, onStarMail, onRemoveMail }) {
+export function MailPreview({ mailId, onOpenMail, onToggleStar, onToggleRead, onDeleteMail }) {
   const [mail, setMail] = useState(null)
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
-    loadMail()
+    mailService.get(mailId).then((fetchedMail) => setMail(fetchedMail))
   }, [mailId])
 
-  function loadMail() {
-    mailService
-      .get(mailId)
-      .then(setMail)
-      .catch((err) => {
-        console.log('Error loading mail:', err)
-      })
+  if (!mail) return null
+
+  function handleMailClick() {
+    onOpenMail(mailId)
   }
 
-  function formatDateOrTime(createdAt) {
-    const mailDate = new Date(createdAt)
+  function handleStarClick(ev) {
+    ev.stopPropagation()
+    onToggleStar(mailId)
+  }
+
+  function handleReadClick(ev) {
+    ev.stopPropagation()
+    onToggleRead(mailId)
+  }
+
+  function handleDeleteClick(ev) {
+    ev.stopPropagation()
+    onDeleteMail(mailId)
+  }
+
+  function formatTime(date) {
+    const hours = date.getHours().toString().padStart(2, '0')
+    const minutes = date.getMinutes().toString().padStart(2, '0')
+    return `${hours}:${minutes}`
+  }
+
+  function formatDate(date) {
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+    return `${day}/${month}/${year}`
+  }
+
+  function isToday(date) {
     const today = new Date()
-
-    const isToday = mailDate.getDate() === today.getDate() && mailDate.getMonth() === today.getMonth() && mailDate.getFullYear() === today.getFullYear()
-
-    return isToday ? mailDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : mailDate.toLocaleDateString('en-GB')
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()
   }
 
-  function renderSenderOrRecipient() {
-    const isSentByUser = mail.from === 'user@appsus.com'
-    return isSentByUser ? `To: ${mail.to}` : `From: ${mail.from}`
+  function displayDateOrTime(createdAt) {
+    const date = new Date(createdAt)
+    return isToday(date) ? formatTime(date) : formatDate(date)
   }
-
-  if (!mail) return <div>Loading...</div>
 
   return (
-    <tr
-      className={`mail-preview ${mail.isRead ? 'read' : 'unread'} ${isHovered ? 'hovered' : ''}`}
+    <div
+      className={`mail-preview ${mail.isRead ? 'read' : 'unread'}`}
+      onClick={handleMailClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ border: '1px solid black' }}
     >
-      <td className='icon-star' onClick={() => onStarMail(mail.id)}>
-        {mail.isStarred ? '⭐' : '☆'}
-      </td>
-      <td className='sender-recipient'>{renderSenderOrRecipient()}</td>
-      <td className='subject'>
-        <LongTxt txt={mail.subject} length={20} onlyShort={true} />
-      </td>
-      <td className='body'>
-        <LongTxt txt={mail.body} length={30} onlyShort={true} />
-      </td>
-      <td className='date'>{formatDateOrTime(mail.createdAt)}</td>
-      <td className='actions'>
-        {isHovered && (
-          <div>
-            <button onClick={() => onRemoveMail(mail.id)}>🗑️</button>
-            <button onClick={() => console.log('Open mail:', mail.id)}>📧</button>
+      <section className='mail-star' onClick={handleStarClick}>
+        {mail.isStarred ? '★' : '☆'}
+      </section>
+
+      {/* הצגת "Draft" באדום אם המייל במצב Draft */}
+      <section className='mail-from-to'>
+        {mail.status === 'draft' ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
+      </section>
+
+      <section className='mail-subject'>
+        <LongTxt txt={mail.subject} length={30} onlyShort={true} />
+      </section>
+
+      <section className='mail-body'>
+        <LongTxt txt={mail.body} length={50} onlyShort={true} />
+      </section>
+
+      <section className='mail-date-controls'>
+        {!isHovered ? (
+          <span>{displayDateOrTime(mail.createdAt)}</span>
+        ) : (
+          <div className='mail-controls'>
+            <button className='mail-toggle-read' onClick={handleReadClick}>
+              {mail.isRead ? '✉️' : '📭'}
+            </button>
+            <button className='mail-delete' onClick={handleDeleteClick}>
+              🗑️
+            </button>
           </div>
         )}
-      </td>
-    </tr>
+      </section>
+    </div>
   )
 }

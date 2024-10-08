@@ -1,97 +1,119 @@
-/* MailPreview Component Styles */
+.draft-text {
+  color: #dd4b39; /* הצבע האדום שהצגת */
+  font-size: 14px; /* גודל הגופן שהצגת */
+  font-family: 'Google Sans', Roboto, sans-serif; /* הגופן שהצגת */
+}
 
 .mail-preview {
-  display: table-row;
-  border: 1px solid black;
-  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
   cursor: pointer;
+  background-color: white;
+  font-family: 'Google Sans', Roboto, sans-serif;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  gap: 2%;
 }
 
 .mail-preview.read {
-  background-color: #f9f9f9;
+  background-color: #f2f6fc;
+  color: #999;
+  padding: 10px 0px;
 }
 
 .mail-preview.unread {
-  background-color: #ffffff;
+  background-color: transparent;
+  font-weight: normal;
+}
+
+.mail-preview.unread .mail-subject,
+.mail-preview.unread .mail-from-to,
+.mail-preview.unread .mail-date-controls {
   font-weight: bold;
 }
 
 .mail-preview:hover {
-  border: 2px solid #007bff;
-  background-color: #e0f7fa;
+  background-color: #d3eaff;
 }
 
-.mail-preview .icon-star {
-  padding: 0.625rem;
-  color: #ffc107;
+.mail-star {
+  width: 5%;
+  text-align: left;
+  font-size: 20px;
   cursor: pointer;
-  text-align: center;
+  transition: transform 0.3s ease;
 }
 
-.mail-preview .icon-star:hover {
-  color: #ff9800;
+.mail-star:hover {
+  transform: scale(1.2);
 }
 
-.mail-preview .sender-recipient,
-.mail-preview .subject,
-.mail-preview .body,
-.mail-preview .date,
-.mail-preview .actions {
-  padding: 0.625rem;
+.mail-from-to,
+.mail-subject p,
+.mail-body p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Google Sans', Roboto, sans-serif;
+  font-size: 14px;
+  color: #5f6368;
   text-align: left;
 }
 
-.mail-preview .sender-recipient {
-  font-size: 0.875rem;
-  color: #333;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 200px;
+.mail-from-to {
+  width: 20%;
+  text-align: left;
 }
 
-.mail-preview .subject p {
-  font-size: 0.875rem;
-  font-weight: 500;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin-right: 0.625rem;
-  color: #333;
-}
-
-.mail-preview .body p {
-  font-size: 0.75rem;
+.mail-subject {
+  width: 15%;
   font-weight: normal;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin-right: 0.625rem;
-  color: #888;
+  text-align: left;
 }
 
-.mail-preview .actions {
-  text-align: center;
+.mail-body {
+  width: 35%;
+  text-align: left;
+}
+
+.mail-date-controls {
+  width: 5%;
+  font-size: 12px;
+  position: relative;
+  transition: opacity 0.3s ease;
+  text-align: left;
+}
+
+.mail-controls {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
   visibility: hidden;
-  background-color: inherit;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.mail-preview:hover .actions {
+.mail-preview:hover .mail-controls {
+  opacity: 1;
   visibility: visible;
 }
 
-.mail-preview .date {
-  font-size: 0.875rem;
-  color: #888;
+.mail-preview:hover .mail-date-controls span {
+  opacity: 0;
 }
 
-.mail-preview .actions button {
+.mail-toggle-read,
+.mail-delete {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  margin-left: 5px;
+  font-size: 14px;
+  transition: transform 0.3s ease;
 }
 
-.mail-preview .actions button:hover {
-  transform: scale(1.1);
+.mail-toggle-read:hover,
+.mail-delete:hover {
+  transform: scale(1.2);
 }

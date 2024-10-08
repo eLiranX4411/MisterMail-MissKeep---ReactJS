@@ -25,6 +25,10 @@ export const mailService = {
   getReadedMails,
   sortMailsByDateDesc,
   sortMailsByDateAsc,
+  moveToTrash,
+  deletePermanently,
+  restoreFromTrash,
+  updateReadStatus,
 }
 
 const loggedinUser = {
@@ -85,6 +89,38 @@ function save(mail) {
     mail.from = loggedinUser.email
     return storageService.post(MAIL_KEY, mail)
   }
+}
+
+function moveToTrash(mailId) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    if (mail.status !== 'trash') {
+      mail.status = 'trash'
+      return storageService.put(MAIL_KEY, mail)
+    } else {
+      return deletePermanently(mailId)
+    }
+  })
+}
+
+function deletePermanently(mailId) {
+  return storageService.remove(MAIL_KEY, mailId)
+}
+
+function restoreFromTrash(mailId) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    if (mail.status === 'trash') {
+      mail.status = mail.statusBeforeTrash || 'inbox'
+      return storageService.put(MAIL_KEY, mail)
+    }
+  })
+}
+
+function updateReadStatus(mailId, isRead) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    mail.isRead = isRead
+    mail.readAt = isRead ? Date.now() : null
+    return storageService.put(MAIL_KEY, mail)
+  })
 }
 
 function getEmptyMail(subject = '', body = '') {
