@@ -59,12 +59,13 @@ export function EditNote() {
       })
   }
 
-  function handleTodoChange() {
-    console.log('Handle')
-  }
-
-  function handleTodoCheck() {
-    console.log('Handle Check')
+  function handleTodoChange(ev, idx) {
+    const value = ev.target.value
+    setNoteToEdit((prevNote) => {
+      const updatedTodos = [...prevNote.info.todos]
+      updatedTodos[idx].txt = value
+      return { ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }
+    })
   }
 
   function onBack() {
@@ -99,15 +100,8 @@ export function EditNote() {
                     <input
                       type='text'
                       value={todo.txt}
-                      onChange={(el) => handleTodoChange(el, idx)}
+                      onChange={(ev) => handleTodoChange(ev, idx)}
                       name={`todo-${idx}`}
-                      id='todos'
-                    />
-                    <input
-                      type='checkbox'
-                      checked={todo.doneAt ? true : false}
-                      onChange={(el) => handleTodoCheck(el, idx)}
-                      name={`todo-done-${idx}`}
                       id='todos'
                     />
                   </li>

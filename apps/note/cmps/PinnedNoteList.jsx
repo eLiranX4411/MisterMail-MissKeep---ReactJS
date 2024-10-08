@@ -1,6 +1,12 @@
 import { NotePreview } from '../../../apps/note/cmps/NotePreview.jsx'
 
-export function PinnedNoteList({ notes, onRemoveNote, onSetNewColor, onPinnedNote }) {
+export function PinnedNoteList({
+  notes,
+  handleTodoCheck,
+  onRemoveNote,
+  onSetNewColor,
+  onPinnedNote
+}) {
   return (
     <section className='notes-list'>
       {notes.map((note) => (
@@ -10,6 +16,7 @@ export function PinnedNoteList({ notes, onRemoveNote, onSetNewColor, onPinnedNot
           onRemoveNote={onRemoveNote}
           onPinnedNote={onPinnedNote}
           onSetNewColor={onSetNewColor}
+          handleTodoCheck={handleTodoCheck}
         />
       ))}
     </section>

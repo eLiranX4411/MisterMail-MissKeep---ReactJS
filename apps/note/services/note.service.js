@@ -53,7 +53,7 @@ var gNotes = [
       title: 'Get my stuff together',
       todos: [
         { txt: 'Driving license', doneAt: null },
-        { txt: 'Coding power', doneAt: 187111111 }
+        { txt: 'Coding power', doneAt: null }
       ]
     }
   },

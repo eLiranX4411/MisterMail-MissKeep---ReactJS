@@ -1,4 +1,4 @@
-export function NoteTodos({ note }) {
+export function NoteTodos({ note, handleTodoCheck }) {
   return (
     <section className='note-todos-container'>
       <div className='note-todos-card'>
@@ -7,7 +7,13 @@ export function NoteTodos({ note }) {
         {note.info.todos.map((todo, idx) => (
           <ul key={idx}>
             <li className='todo-txt'>
-              <input type='checkbox' name='todos' id='todos' /> {todo.txt}
+              <input
+                type='checkbox'
+                checked={!!todo.doneAt}
+                onChange={(ev) => handleTodoCheck(note.id, idx, ev.target.checked)}
+                name={`todo-${idx}`}
+              />
+              {todo.txt}
             </li>
           </ul>
         ))}

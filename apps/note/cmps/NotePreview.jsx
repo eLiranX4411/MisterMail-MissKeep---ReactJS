@@ -7,7 +7,7 @@ import { ColorInput } from '../../../apps/note/cmps/ColorInput.jsx'
 const { useState } = React
 const { Link } = ReactRouterDOM
 
-export function NotePreview({ note, onRemoveNote, onPinnedNote, onSetNewColor }) {
+export function NotePreview({ note, handleTodoCheck, onRemoveNote, onPinnedNote, onSetNewColor }) {
   const [cmpType, setCmpType] = useState(note.type)
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false)
 
@@ -22,7 +22,12 @@ export function NotePreview({ note, onRemoveNote, onPinnedNote, onSetNewColor })
 
   return (
     <section style={noteStyle} className='notes-preview'>
-      <DynamicCmp cmpType={cmpType} note={note} onRemoveNote={onRemoveNote} />
+      <DynamicCmp
+        cmpType={cmpType}
+        note={note}
+        handleTodoCheck={handleTodoCheck}
+        onRemoveNote={onRemoveNote}
+      />
       <div className='notes-actions'>
         <button onClick={() => onRemoveNote(note.id)}>Remove</button>
         <button onClick={() => onPinnedNote(note.id)}>Pin</button>

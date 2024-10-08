@@ -39,6 +39,33 @@ export function NoteIndex() {
     setNotes((prevNotes) => [...prevNotes, newNote])
   }
 
+  function handleTodoCheck(noteId, idx, isChecked) {
+    setNotes((prevNotes) => {
+      const updatedNotes = prevNotes.map((note) => {
+        if (note.id !== noteId) return note
+
+        const updatedTodos = [...note.info.todos]
+        updatedTodos[idx].doneAt = isChecked ? Date.now() : null
+
+        const updatedNote = { ...note, info: { ...note.info, todos: updatedTodos } }
+
+        noteService
+          .save(updatedNote)
+          .then(() => {
+            showSuccessMsg('Todo state updated successfully!')
+          })
+          .catch((err) => {
+            console.error('Failed to updated todo:', err)
+            showErrorMsg('Failed to update todo.')
+          })
+
+        return updatedNote
+      })
+
+      return updatedNotes
+    })
+  }
+
   function onRemoveNote(noteId) {
     noteService
       .remove(noteId)
@@ -150,6 +177,7 @@ export function NoteIndex() {
           onRemoveNote={onRemoveNote}
           onPinnedNote={onPinnedNote}
           onSetNewColor={onSetNewColor}
+          handleTodoCheck={handleTodoCheck}
         />
       </section>
     </main>
