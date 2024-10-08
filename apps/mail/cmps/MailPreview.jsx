@@ -65,7 +65,6 @@ export function MailPreview({ mailId, onOpenMail, onToggleStar, onToggleRead, on
         {mail.isStarred ? '★' : '☆'}
       </section>
 
-      {/* הצגת "Draft" באדום אם המייל במצב Draft */}
       <section className='mail-from-to'>
         {mail.status === 'draft' ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
       </section>
