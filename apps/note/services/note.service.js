@@ -24,7 +24,8 @@ var gNotes = [
       backgroundColor: '#00d'
     },
     info: {
-      txt: 'Fullstack Txt Me Baby!'
+      title: 'Fullstack',
+      txt: 'Me Baby!'
     }
   },
   {
@@ -44,7 +45,7 @@ var gNotes = [
     id: 'n103',
     createdAt: Date.now(),
     type: 'NoteTodos',
-    isPinned: false,
+    isPinned: true,
     info: {
       title: 'Get my stuff together',
       todos: [
@@ -107,12 +108,16 @@ function save(note) {
 
 function getEmptyNote() {
   return {
-    type: '',
-    title: '',
-    txt: '',
-    img: null,
-    video: null,
-    todos: []
+    createdAt: Date.now(),
+    type: 'NoteTxt',
+    isPinned: false,
+    style: {
+      backgroundColor: '#00d'
+    },
+    info: {
+      title: '',
+      txt: ''
+    }
   }
 }
 
@@ -123,17 +128,6 @@ function getFilterFromSearchParams(searchParams) {
     type,
     title
   }
-}
-
-function _setNextPrevNoteId(note) {
-  return query().then((notes) => {
-    const noteIdx = notes.findIndex((currNote) => currNote.id === note.id)
-    const nextNote = notes[noteIdx + 1] ? notes[noteIdx + 1] : notes[0]
-    const prevNote = notes[noteIdx - 1] ? notes[noteIdx - 1] : notes[notes.length - 1]
-    note.nextNotelId = nextNote.id
-    note.prevNoteId = prevNote.id
-    return note
-  })
 }
 
 function debounce(func, delay) {
@@ -228,6 +222,17 @@ function getDefaultFilter() {
     title: '',
     type: ''
   }
+}
+
+function _setNextPrevNoteId(note) {
+  return query().then((notes) => {
+    const noteIdx = notes.findIndex((currNote) => currNote.id === note.id)
+    const nextNote = notes[noteIdx + 1] ? notes[noteIdx + 1] : notes[0]
+    const prevNote = notes[noteIdx - 1] ? notes[noteIdx - 1] : notes[notes.length - 1]
+    note.nextNotelId = nextNote.id
+    note.prevNoteId = prevNote.id
+    return note
+  })
 }
 
 */

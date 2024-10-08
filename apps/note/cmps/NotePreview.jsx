@@ -5,16 +5,18 @@ import { NoteVideo } from '../../../apps/note/cmps/NoteVideo.jsx'
 
 const { useState } = React
 
-export function NotePreview({ note, onRemoveNote }) {
+export function NotePreview({ note, onRemoveNote, onPinnedNote }) {
   const [cmpType, setCmpType] = useState(note.type)
 
   return (
     <section className='notes-preview'>
       <DynamicCmp cmpType={cmpType} note={note} onRemoveNote={onRemoveNote} />
-      <button onClick={() => onRemoveNote(note.id)}>Remove</button>
-      <button>Pin</button>
-      <button>Duplicate</button>
-      <button>Edit</button>
+      <div className='notes-actions'>
+        <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+        <button onClick={() => onPinnedNote(note.id)}>Pin</button>
+        <button>Duplicate</button>
+        <button>Edit</button>
+      </div>
     </section>
   )
 }

@@ -1,0 +1,72 @@
+.notes-filter input {
+  width: 35rem;
+  background-color: var(--note-primary2);
+  border: 2px solid var(--note-primary2);
+  border-radius: 0.4em;
+
+  margin-inline-end: 2em;
+  padding: 0.8em;
+}
+
+.notes-filter input:focus {
+  outline: none;
+  border: 3px solid var(--note-primary2);
+  background-color: var(--note-primary1);
+}
+
+.notes-filter select {
+  border: none;
+}
+
+/* Filter Container */
+.filter-by {
+  display: flex;
+  align-items: center;
+}
+
+/* Hamburger Button */
+.hamburger-icon-filter {
+  position: relative;
+  margin-left: 1rem;
+}
+
+.hamburger-btn {
+  background-color: transparent;
+  border: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.hamburger-btn:hover {
+  background-color: #f1f1f1;
+  border-radius: 50%;
+}
+
+/* Custom Dropdown Styles */
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  width: 150px;
+  z-index: 100;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-dropdown li {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-dropdown li:hover {
+  background-color: var(--note-primary2);
+}
