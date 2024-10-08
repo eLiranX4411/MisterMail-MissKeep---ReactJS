@@ -21,7 +21,7 @@ var gNotes = [
     type: 'NoteTxt',
     isPinned: true,
     style: {
-      backgroundColor: '#00d'
+      backgroundColor: ''
     },
     info: {
       title: 'Fullstack',
@@ -33,12 +33,12 @@ var gNotes = [
     createdAt: Date.now(),
     type: 'NoteImg',
     isPinned: false,
+    style: {
+      backgroundColor: ''
+    },
     info: {
       url: 'http://some-img/me',
       title: 'Img me'
-    },
-    style: {
-      backgroundColor: '#00d'
     }
   },
   {
@@ -46,6 +46,9 @@ var gNotes = [
     createdAt: Date.now(),
     type: 'NoteTodos',
     isPinned: true,
+    style: {
+      backgroundColor: ''
+    },
     info: {
       title: 'Get my stuff together',
       todos: [
@@ -59,12 +62,12 @@ var gNotes = [
     createdAt: Date.now(),
     type: 'NoteVideo',
     isPinned: false,
+    style: {
+      backgroundColor: ''
+    },
     info: {
       url: 'http://some-img/me',
       title: 'Video me'
-    },
-    style: {
-      backgroundColor: '#00d'
     }
   }
 ]
@@ -112,7 +115,7 @@ function getEmptyNote() {
     type: 'NoteTxt',
     isPinned: false,
     style: {
-      backgroundColor: '#00d'
+      backgroundColor: ''
     },
     info: {
       title: '',

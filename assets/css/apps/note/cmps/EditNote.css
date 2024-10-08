@@ -1,0 +1,13 @@
+.note-edit {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.note-edit-container {
+  display: flex;
+  padding: 10em;
+  border: 2px solid var(--note-primary3);
+  border-radius: 1em;
+}

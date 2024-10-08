@@ -14,9 +14,10 @@
   justify-content: flex-start;
 
   min-width: 250px;
+  min-height: 100px;
   padding: 1em;
 
-  background-color: var(--note-primary1);
+  /* background-color: var(--note-primary1); */
   border-radius: 8px;
 }
 

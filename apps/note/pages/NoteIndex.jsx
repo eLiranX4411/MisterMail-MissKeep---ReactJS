@@ -8,8 +8,6 @@ import { noteService } from '../../../apps/note/services/note.service.js'
 import { getTruthyValues } from '../../../services/util.service.js'
 
 // Cmps
-import { NoteList } from '../../../apps/note/cmps/NoteList.jsx'
-import { PinnedNoteList } from '../../../apps/note/cmps/PinnedNoteList.jsx'
 import { NoteDisplay } from '../../../apps/note/cmps/NoteDisplay.jsx'
 import { AppLoader } from '../../../cmps/AppLoader.jsx'
 import { AddNote } from '../../../apps/note/cmps/AddNote.jsx'
@@ -75,6 +73,33 @@ export function NoteIndex() {
       })
   }
 
+  function onSetNewColor(noteId, newColor) {
+    const noteIdx = notes.find((note) => note.id === noteId)
+
+    if (!noteIdx) {
+      showErrorMsg(`Note not found (${noteId})`)
+      return
+    }
+
+    const updatedNoteColor = {
+      ...noteIdx,
+      style: { ...noteIdx.style, backgroundColor: newColor }
+    }
+
+    noteService
+      .save(updatedNoteColor)
+      .then(() => {
+        setNotes((Notes) => Notes.map((note) => (note.id === noteId ? updatedNoteColor : note)))
+        showSuccessMsg(
+          `Note ${updatedNoteColor.style.backgroundColor ? 'colored' : 'uncolored'} successfully!`
+        )
+      })
+      .catch((err) => {
+        console.log('Problems style the note:', err)
+        showErrorMsg(`Problems style the note (${noteId})`)
+      })
+  }
+
   function onSetFilterBy(filterBy) {
     setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
   }
@@ -120,7 +145,12 @@ export function NoteIndex() {
       {/* Notes Body */}
       <section className='notes-body'>
         <AddNote handleAddNote={handleAddNote} />
-        <NoteDisplay notes={notes} onRemoveNote={onRemoveNote} onPinnedNote={onPinnedNote} />
+        <NoteDisplay
+          notes={notes}
+          onRemoveNote={onRemoveNote}
+          onPinnedNote={onPinnedNote}
+          onSetNewColor={onSetNewColor}
+        />
       </section>
     </main>
   )
