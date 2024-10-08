@@ -2,34 +2,36 @@ const { useState, useEffect } = React
 import { mailService } from '../../../apps/mail/services/mail.service.js'
 import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService.js'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
-import { MailList } from '../cmps/MailList.jsx' // קומפוננטה להצגת המיילים
+import { MailList } from '../cmps/MailList.jsx'
 
 export function MailIndex() {
   const [mails, setMails] = useState([])
   const [activeFilter, setActiveFilter] = useState('all')
-  const [loading, setLoading] = useState(true) // ניהול מצב הטעינה
-  const [mailCounts, setMailCounts] = useState({}) // ניהול מספר המיילים בכל קטגוריה
+  const [loading, setLoading] = useState(true)
+  const [mailCounts, setMailCounts] = useState({})
 
   useEffect(() => {
     setLoading(true)
-    loadInitialData() // טוען את הנתונים מהזיכרון לפני כל פעולה
+    loadInitialData()
   }, [])
 
   useEffect(() => {
     setLoading(true)
-    loadMails() // טוען מיילים כאשר הפילטר משתנה
+    loadMails()
   }, [activeFilter])
 
   useEffect(() => {
-    updateMailCounts() // עדכון מספר המיילים בהתחלה ובכל שינוי
-  }, [])
+    updateMailCounts()
+  }, [mails])
 
   function loadInitialData() {
+    console.log('Loading initial data...')
     mailLoaderService
-      .loadInitialMails() // קריאה ל-loader service לטעינה ראשונית של המיילים
+      .loadInitialMails()
       .then(() => {
-        loadMails() // טוען את המיילים לאחר טעינת הנתונים הראשונית
-        updateMailCounts() // מעדכן את מספר המיילים לאחר טעינת הנתונים
+        console.log('Initial data loaded.')
+        loadMails()
+        updateMailCounts()
       })
       .catch((err) => {
         console.log('Error loading initial mails:', err)
@@ -38,7 +40,7 @@ export function MailIndex() {
   }
 
   function loadMails(filter = activeFilter) {
-    setActiveFilter(filter) // מעדכן את הפילטר
+    console.log(`Loading mails with filter: ${filter}`)
     const filterMethodMap = {
       all: 'query',
       sent: 'getSentMails',
@@ -52,6 +54,7 @@ export function MailIndex() {
 
     mailService[filterMethodMap[filter]]()
       .then((mails) => {
+        console.log(`Loaded ${mails.length} mails with filter: ${filter}`)
         setMails(mails)
         setLoading(false)
       })
@@ -62,6 +65,7 @@ export function MailIndex() {
   }
 
   function updateMailCounts() {
+    console.log('Updating mail counts...')
     const filterMethodMap = {
       all: 'query',
       sent: 'getSentMails',
@@ -82,19 +86,60 @@ export function MailIndex() {
           acc[mailTypes[idx]] = mails.length
           return acc
         }, {})
+        console.log('Mail counts updated:', newCounts)
         setMailCounts(newCounts)
       })
       .catch((err) => console.log('Error updating mail counts:', err))
   }
 
+  function handleStarMail(mailId) {
+    console.log(`Toggling star for mail ID: ${mailId}`)
+    mailService.get(mailId).then((mail) => {
+      const newStarStatus = !mail.isStarred
+      mailService.updateReadStatus(mailId, newStarStatus).then(() => {
+        console.log(`Mail ID: ${mailId} star status updated.`)
+        loadMails()
+        updateMailCounts()
+      })
+    })
+  }
+
+  function handleRemoveMail(mailId) {
+    console.log(`Moving mail ID: ${mailId} to trash`)
+    mailService.moveToTrash(mailId).then(() => {
+      console.log(`Mail ID: ${mailId} moved to trash.`)
+      loadMails()
+      updateMailCounts()
+    })
+  }
+
+  function handleToggleReadStatus(mailId) {
+    console.log(`Toggling read status for mail ID: ${mailId}`)
+    mailService.get(mailId).then((mail) => {
+      const newReadStatus = !mail.isRead
+      mailService.updateReadStatus(mailId, newReadStatus).then(() => {
+        console.log(`Mail ID: ${mailId} read status updated.`)
+        loadMails()
+        updateMailCounts()
+      })
+    })
+  }
+
+  function handleOpenMail(mailId) {
+    console.log(`Opening mail with ID: ${mailId}`)
+  }
+
   return (
     <div className='mail-index-container'>
-      <MailFolderList
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter} // שינוי הפילטר מעדכן את מצב ה-activeFilter
-        mailCounts={mailCounts} // מספר המיילים בכל קטגוריה
+      <MailFolderList activeFilter={activeFilter} setActiveFilter={setActiveFilter} mailCounts={mailCounts} />
+      <MailList
+        mails={mails}
+        loading={loading}
+        onStarMail={handleStarMail}
+        onRemoveMail={handleRemoveMail}
+        onToggleRead={handleToggleReadStatus}
+        onOpenMail={handleOpenMail}
       />
-      <MailList mails={mails} loading={loading} />
     </div>
   )
 }
