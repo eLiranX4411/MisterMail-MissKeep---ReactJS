@@ -38,7 +38,7 @@ export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDe
       </section>
 
       <section className='mail-from-to'>
-        {mail.status === 'draft' ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
+        {mail.isDraft ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
       </section>
 
       <section className='mail-subject'>
