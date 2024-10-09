@@ -11,7 +11,8 @@ export const noteService = {
   save,
   getFilterFromSearchParams,
   debounce,
-  getEmptyNote
+  getEmptyNote,
+  getUniqueId
 }
 
 var gNotes = [
@@ -141,6 +142,17 @@ function debounce(func, delay) {
       func(...args)
     }, delay)
   }
+}
+
+function getUniqueId(length = 4) {
+  var txt = ''
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+  for (var i = 0; i < length; i++) {
+    txt += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
+
+  return txt
 }
 
 //////////////////////TrashCan///////////////////////////

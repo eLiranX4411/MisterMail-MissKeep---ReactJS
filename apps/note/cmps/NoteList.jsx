@@ -1,6 +1,13 @@
 import { NotePreview } from '../../../apps/note/cmps/NotePreview.jsx'
 
-export function NoteList({ notes, handleTodoCheck, onRemoveNote, onPinnedNote, onSetNewColor }) {
+export function NoteList({
+  notes,
+  handleTodoCheck,
+  onRemoveNote,
+  onPinnedNote,
+  onSetNewColor,
+  onDuplicateNote
+}) {
   return (
     <section className='notes-list'>
       {notes.map((note) => (
@@ -11,6 +18,7 @@ export function NoteList({ notes, handleTodoCheck, onRemoveNote, onPinnedNote, o
           onPinnedNote={onPinnedNote}
           onSetNewColor={onSetNewColor}
           handleTodoCheck={handleTodoCheck}
+          onDuplicateNote={onDuplicateNote}
         />
       ))}
     </section>

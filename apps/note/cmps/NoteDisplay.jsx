@@ -1,7 +1,14 @@
 import { NoteList } from '../../../apps/note/cmps/NoteList.jsx'
 import { PinnedNoteList } from '../../../apps/note/cmps/PinnedNoteList.jsx'
 
-export function NoteDisplay({ notes, onRemoveNote, handleTodoCheck, onPinnedNote, onSetNewColor }) {
+export function NoteDisplay({
+  notes,
+  onDuplicateNote,
+  onRemoveNote,
+  handleTodoCheck,
+  onPinnedNote,
+  onSetNewColor
+}) {
   if (!notes || notes.length === 0) return null
 
   const pinnedNotes = notes.filter((note) => note.isPinned)
@@ -19,6 +26,7 @@ export function NoteDisplay({ notes, onRemoveNote, handleTodoCheck, onPinnedNote
             onSetNewColor={onSetNewColor}
             onPinnedNote={onPinnedNote}
             handleTodoCheck={handleTodoCheck}
+            onDuplicateNote={onDuplicateNote}
           />
         </section>
       ) : (
@@ -35,6 +43,7 @@ export function NoteDisplay({ notes, onRemoveNote, handleTodoCheck, onPinnedNote
             onPinnedNote={onPinnedNote}
             onSetNewColor={onSetNewColor}
             handleTodoCheck={handleTodoCheck}
+            onDuplicateNote={onDuplicateNote}
           />
         </section>
       ) : (

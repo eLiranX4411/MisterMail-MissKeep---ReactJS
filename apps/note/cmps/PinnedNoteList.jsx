@@ -5,7 +5,8 @@ export function PinnedNoteList({
   handleTodoCheck,
   onRemoveNote,
   onSetNewColor,
-  onPinnedNote
+  onPinnedNote,
+  onDuplicateNote
 }) {
   return (
     <section className='notes-list'>
@@ -17,6 +18,7 @@ export function PinnedNoteList({
           onPinnedNote={onPinnedNote}
           onSetNewColor={onSetNewColor}
           handleTodoCheck={handleTodoCheck}
+          onDuplicateNote={onDuplicateNote}
         />
       ))}
     </section>

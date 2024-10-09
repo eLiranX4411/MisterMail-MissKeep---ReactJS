@@ -7,7 +7,14 @@ import { ColorInput } from '../../../apps/note/cmps/ColorInput.jsx'
 const { useState } = React
 const { Link } = ReactRouterDOM
 
-export function NotePreview({ note, handleTodoCheck, onRemoveNote, onPinnedNote, onSetNewColor }) {
+export function NotePreview({
+  note,
+  handleTodoCheck,
+  onDuplicateNote,
+  onRemoveNote,
+  onPinnedNote,
+  onSetNewColor
+}) {
   const [cmpType, setCmpType] = useState(note.type)
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false)
 
@@ -30,8 +37,8 @@ export function NotePreview({ note, handleTodoCheck, onRemoveNote, onPinnedNote,
       />
       <div className='notes-actions'>
         <button onClick={() => onRemoveNote(note.id)}>Remove</button>
-        <button onClick={() => onPinnedNote(note.id)}>Pin</button>
-        <button>Duplicate</button>
+        <button onClick={() => onPinnedNote(note.id)}>{note.isPinned ? 'Unpin' : 'Pin'}</button>
+        <button onClick={() => onDuplicateNote(note.id)}>Duplicate</button>
         <button onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}>Change Color</button>
         <Link to={`/note/edit/${note.id}`}>
           <button>Edit</button>

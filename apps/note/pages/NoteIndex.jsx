@@ -79,6 +79,22 @@ export function NoteIndex() {
       })
   }
 
+  function onDuplicateNote(noteId) {
+    const note = notes.find((note) => note.id === noteId)
+    const updatedNote = { ...note, id: '' }
+
+    noteService
+      .save(updatedNote)
+      .then(() => {
+        setNotes((prevNotes) => [...prevNotes, updatedNote])
+        showSuccessMsg(`Note duplicated successfully!`)
+      })
+      .catch((err) => {
+        console.log('Problems duplicating the note:', err)
+        showErrorMsg(`Problems duplicating the note (${noteId})`)
+      })
+  }
+
   function onPinnedNote(noteId) {
     const noteIdx = notes.find((note) => note.id === noteId)
 
@@ -178,6 +194,7 @@ export function NoteIndex() {
           onPinnedNote={onPinnedNote}
           onSetNewColor={onSetNewColor}
           handleTodoCheck={handleTodoCheck}
+          onDuplicateNote={onDuplicateNote}
         />
       </section>
     </main>

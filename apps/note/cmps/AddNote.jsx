@@ -23,6 +23,10 @@ export function AddNote({ handleAddNote }) {
     setIsExpanded(true)
   }
 
+  function handleExpandFalse() {
+    setIsExpanded(false)
+  }
+
   function resetInputs() {
     setNoteData(noteService.getEmptyNote())
   }
@@ -58,15 +62,33 @@ export function AddNote({ handleAddNote }) {
       <div className={`add-note-container ${isExpanded ? 'expanded' : ''}`}>
         {isExpanded ? (
           <React.Fragment>
-            <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
-            <textarea name='txt' placeholder='Take a note...' value={txt} onChange={handleChange} className='add-note-text' />
+            <input
+              type='text'
+              name='title'
+              placeholder='Title'
+              value={title}
+              onChange={handleChange}
+              className='add-note-title'
+            />
+            <textarea
+              name='txt'
+              placeholder='Take a note...'
+              value={txt}
+              onChange={handleChange}
+              className='add-note-text'
+            />
             {/* <input type='file' accept='image/*' className='add-note-image' /> */}
-            <button type='submit' className='add-note-btn'>
+            <button onClick={handleExpandFalse} type='submit' className='add-note-btn'>
               Add Note
             </button>
           </React.Fragment>
         ) : (
-          <input type='text' placeholder='Take a note...' className='add-note-placeholder' onClick={handleExpand} />
+          <input
+            type='text'
+            placeholder='Take a note...'
+            className='add-note-placeholder'
+            onClick={handleExpand}
+          />
         )}
       </div>
     </form>
