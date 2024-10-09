@@ -1,4 +1,4 @@
-import { FilterButton } from './FilterButton.jsx' // ייבוא הקומפוננטה של הכפתור
+import { FilterButton } from './FilterButton.jsx'
 
 export function MailFolderList({ activeFilter, setActiveFilter, mailCounts }) {
   const folderOptions = [

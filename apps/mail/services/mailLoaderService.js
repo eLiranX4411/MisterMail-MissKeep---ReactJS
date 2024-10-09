@@ -126,10 +126,8 @@ function _createMails(count) {
 
   const mails = Array.from({ length: count }, (_, index) => {
     const isInbox = Math.random() > 0.5
-    const statuses = ['inbox', 'sent', 'trash', 'draft']
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
     const createdAt = Date.now() - Math.floor(Math.random() * 10000000000)
-    const sentAt = randomStatus === 'draft' ? null : createdAt + Math.floor(Math.random() * 100000)
+    const sentAt = Math.random() > 0.5 ? createdAt + Math.floor(Math.random() * 100000) : null
     const readAt = Math.random() > 0.7 ? createdAt + Math.floor(Math.random() * 100000) : null
     let from, to
 
@@ -143,6 +141,9 @@ function _createMails(count) {
 
     const labels = Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () => labelsList[Math.floor(Math.random() * labelsList.length)])
 
+    const isDraft = Math.random() > 0.8
+    const isTrash = Math.random() > 0.9
+
     return {
       id: makeId(),
       createdAt,
@@ -151,10 +152,11 @@ function _createMails(count) {
       sentAt,
       from,
       to,
-      status: randomStatus,
+      isDraft,
+      isTrash,
       isRead: !!readAt,
       readAt,
-      removedAt: randomStatus === 'trash' ? createdAt + Math.floor(Math.random() * 1000000) : null,
+      removedAt: isTrash ? createdAt + Math.floor(Math.random() * 1000000) : null,
       isStarred: Math.random() > 0.5,
       labels,
     }

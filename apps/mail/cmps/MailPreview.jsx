@@ -1,57 +1,29 @@
-const { useEffect, useState } = React
+const { useState } = React
 import { LongTxt } from '../../../cmps/LongTxt.jsx'
-import { mailService } from '../services/mail.service.js'
+import { utilService } from '../../../services/util.service.js'
 
-export function MailPreview({ mailId, onOpenMail, onToggleStar, onToggleRead, onDeleteMail }) {
-  const [mail, setMail] = useState(null)
+export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDeleteMail }) {
   const [isHovered, setIsHovered] = useState(false)
-
-  useEffect(() => {
-    mailService.get(mailId).then((fetchedMail) => setMail(fetchedMail))
-  }, [mailId])
 
   if (!mail) return null
 
   function handleMailClick() {
-    onOpenMail(mailId)
+    onOpenMail(mail.id)
   }
 
   function handleStarClick(ev) {
     ev.stopPropagation()
-    onToggleStar(mailId)
+    onToggleStar(mail.id)
   }
 
   function handleReadClick(ev) {
     ev.stopPropagation()
-    onToggleRead(mailId)
+    onToggleRead(mail.id)
   }
 
   function handleDeleteClick(ev) {
     ev.stopPropagation()
-    onDeleteMail(mailId)
-  }
-
-  function formatTime(date) {
-    const hours = date.getHours().toString().padStart(2, '0')
-    const minutes = date.getMinutes().toString().padStart(2, '0')
-    return `${hours}:${minutes}`
-  }
-
-  function formatDate(date) {
-    const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  }
-
-  function isToday(date) {
-    const today = new Date()
-    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()
-  }
-
-  function displayDateOrTime(createdAt) {
-    const date = new Date(createdAt)
-    return isToday(date) ? formatTime(date) : formatDate(date)
+    onDeleteMail(mail.id)
   }
 
   return (
@@ -66,7 +38,7 @@ export function MailPreview({ mailId, onOpenMail, onToggleStar, onToggleRead, on
       </section>
 
       <section className='mail-from-to'>
-        {mail.status === 'draft' ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
+        {mail.isDraft ? <span className='draft-text'>Draft</span> : mail.from === 'user@appsus.com' ? `To: ${mail.to}` : `From: ${mail.from}`}
       </section>
 
       <section className='mail-subject'>
@@ -79,7 +51,7 @@ export function MailPreview({ mailId, onOpenMail, onToggleStar, onToggleRead, on
 
       <section className='mail-date-controls'>
         {!isHovered ? (
-          <span>{displayDateOrTime(mail.createdAt)}</span>
+          <span>{utilService.displayDateOrTime(mail.createdAt)}</span>
         ) : (
           <div className='mail-controls'>
             <button className='mail-toggle-read' onClick={handleReadClick}>
