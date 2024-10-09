@@ -29,6 +29,8 @@ export const mailService = {
   deletePermanently,
   restoreFromTrash,
   updateReadStatus,
+  toggleReadStatus,
+  updateStarStatus,
 }
 
 const loggedinUser = {
@@ -41,6 +43,20 @@ let filterBy = {
   status: '',
   isRead: undefined,
   isStarred: undefined,
+}
+
+function toggleReadStatus(mailId) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    mail.isRead = !mail.isRead
+    return storageService.put(MAIL_KEY, mail)
+  })
+}
+
+function updateStarStatus(mailId) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    mail.isStarred = !mail.isStarred
+    return storageService.put(MAIL_KEY, mail)
+  })
 }
 
 function query(customFilterBy = {}) {

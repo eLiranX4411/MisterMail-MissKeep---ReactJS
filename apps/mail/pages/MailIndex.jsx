@@ -96,8 +96,8 @@ export function MailIndex() {
     console.log(`Toggling star for mail ID: ${mailId}`)
     mailService.updateStarStatus(mailId).then(() => {
       console.log(`Mail ID: ${mailId} star status updated.`)
-      loadMails()
-      updateMailCounts()
+      loadMails() // רענון רשימת המיילים בהתאם לפילטר הנוכחי
+      updateMailCounts() // עדכון ספירת המיילים בכל קטגוריה
     })
   }
 
@@ -121,6 +121,7 @@ export function MailIndex() {
 
   function handleOpenMail(mailId) {
     console.log(`Opening mail with ID: ${mailId}`)
+    // תוכל להוסיף פה פעולה נוספת לפתיחת המייל אם תרצה
   }
 
   return (
