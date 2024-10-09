@@ -2,8 +2,14 @@
 
 @import '../cmps/mail-preview.css';
 @import '../cmps/MailFolderList.css';
+@import '../cmps/MailFilter.css';
+@import '../cmps/Model.css';
+@import '../cmps/ComposeButton.css';
 
-.mail-index-container {
+.mail-index-container .section-a {
   display: flex;
-  width: 100%;
+}
+
+.mail-index-container .section-b {
+  display: flex;
 }

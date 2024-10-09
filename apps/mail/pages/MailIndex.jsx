@@ -3,10 +3,12 @@ import { mailService } from '../../../apps/mail/services/mail.service.js'
 import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService.js'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
 import { MailList } from '../cmps/MailList.jsx'
+import { MailFilter } from '../cmps/MailFilter.jsx'
 
 export function MailIndex() {
   const [mails, setMails] = useState([])
   const [activeFilter, setActiveFilter] = useState('all')
+  const [filterBy, setFilterBy] = useState({})
   const [loading, setLoading] = useState(true)
   const [mailCounts, setMailCounts] = useState({})
 
@@ -52,16 +54,26 @@ export function MailIndex() {
       trash: 'getTrashMails',
     }
 
-    mailService[filterMethodMap[filter]]()
-      .then((mails) => {
-        console.log(`Loaded ${mails.length} mails with filter: ${filter}`)
-        setMails(mails)
+    if (filter === 'custom') {
+      console.log('Applying custom filter:', filterBy)
+      mailService.queryByFilter(filterBy).then((filteredMails) => {
+        console.log('Filtered mails:', filteredMails)
+        setMails(filteredMails)
         setLoading(false)
       })
-      .catch((err) => {
-        console.log('Error loading mails:', err)
-        setLoading(false)
-      })
+    } else {
+      mailService[filterMethodMap[filter]]()
+        .then((mails) => {
+          console.log(`Loaded ${mails.length} mails with filter: ${filter}`)
+          console.log('Mails:', mails)
+          setMails(mails)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log('Error loading mails:', err)
+          setLoading(false)
+        })
+    }
   }
 
   function updateMailCounts() {
@@ -96,8 +108,8 @@ export function MailIndex() {
     console.log(`Toggling star for mail ID: ${mailId}`)
     mailService.updateStarStatus(mailId).then(() => {
       console.log(`Mail ID: ${mailId} star status updated.`)
-      loadMails() // רענון רשימת המיילים בהתאם לפילטר הנוכחי
-      updateMailCounts() // עדכון ספירת המיילים בכל קטגוריה
+      loadMails()
+      updateMailCounts()
     })
   }
 
@@ -121,20 +133,39 @@ export function MailIndex() {
 
   function handleOpenMail(mailId) {
     console.log(`Opening mail with ID: ${mailId}`)
-    // תוכל להוסיף פה פעולה נוספת לפתיחת המייל אם תרצה
+  }
+
+  function handleComposeClick() {
+    console.log('Compose button clicked!')
+  }
+  function handleSetFilter(newFilter) {
+    console.log('Setting new filter:', newFilter)
+    setFilterBy(newFilter)
+    setActiveFilter('custom')
+    loadMails('custom')
   }
 
   return (
     <div className='mail-index-container'>
-      <MailFolderList activeFilter={activeFilter} setActiveFilter={setActiveFilter} mailCounts={mailCounts} />
-      <MailList
-        mails={mails}
-        loading={loading}
-        onStarMail={handleStarMail}
-        onRemoveMail={handleRemoveMail}
-        onToggleRead={handleToggleReadStatus}
-        onOpenMail={handleOpenMail}
-      />
+      <section className='section-a'>
+        <button className='compose-btn' onClick={handleComposeClick}>
+          ✏️
+          <span className='text'>Compose</span>
+        </button>
+        <MailFilter onSetFilter={handleSetFilter} />
+      </section>
+
+      <section className='section-b'>
+        <MailFolderList activeFilter={activeFilter} setActiveFilter={setActiveFilter} mailCounts={mailCounts} />
+        <MailList
+          mails={mails}
+          loading={loading}
+          onStarMail={handleStarMail}
+          onRemoveMail={handleRemoveMail}
+          onToggleRead={handleToggleReadStatus}
+          onOpenMail={handleOpenMail}
+        />
+      </section>
     </div>
   )
 }

@@ -10,6 +10,7 @@ export const utilService = {
   formatDate,
   isToday,
   displayDateOrTime,
+  getTruthyValues,
 }
 
 export function saveToStorage(key, val) {

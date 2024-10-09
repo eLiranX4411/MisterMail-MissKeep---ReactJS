@@ -80,7 +80,7 @@ function query(customFilterBy = {}) {
 }
 
 // פונקציה לשליפת מיילים לפי אובייקט ה-filterBy השמור, כולל טיפול בערכים null או undefined
-function queryByFilter() {
+function queryByFilter(filterBy = {}) {
   return storageService.query(MAIL_KEY).then((mails) => {
     if (filterBy.txt) {
       const regExp = new RegExp(filterBy.txt, 'i')
@@ -92,20 +92,19 @@ function queryByFilter() {
     if (filterBy.isStarred !== undefined) {
       mails = mails.filter((mail) => mail.isStarred === filterBy.isStarred || filterBy.isStarred === null)
     }
-    if (filterBy.labels) {
-      mails = mails.filter((mail) => mail.labels.includes(filterBy.labels))
-    }
-    if (filterBy.to) {
-      mails = mails.filter((mail) => mail.to === filterBy.to)
-    }
-    if (filterBy.from) {
-      mails = mails.filter((mail) => mail.from === filterBy.from)
-    }
     if (filterBy.isTrash !== undefined) {
       mails = mails.filter((mail) => mail.isTrash === filterBy.isTrash || filterBy.isTrash === null)
     }
-    if (filterBy.isDraft !== undefined) {
-      mails = mails.filter((mail) => mail.isDraft === filterBy.isDraft || filterBy.isDraft === null)
+    if (filterBy.labels && filterBy.labels.length) {
+      mails = mails.filter((mail) => filterBy.labels.some((label) => mail.labels.includes(label)))
+    }
+    if (filterBy.startDate) {
+      const startDate = new Date(filterBy.startDate).getTime()
+      mails = mails.filter((mail) => mail.createdAt >= startDate)
+    }
+    if (filterBy.endDate) {
+      const endDate = new Date(filterBy.endDate).getTime()
+      mails = mails.filter((mail) => mail.createdAt <= endDate)
     }
     return mails
   })
