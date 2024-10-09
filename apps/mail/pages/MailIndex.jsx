@@ -94,13 +94,10 @@ export function MailIndex() {
 
   function handleStarMail(mailId) {
     console.log(`Toggling star for mail ID: ${mailId}`)
-    mailService.get(mailId).then((mail) => {
-      const newStarStatus = !mail.isStarred
-      mailService.updateReadStatus(mailId, newStarStatus).then(() => {
-        console.log(`Mail ID: ${mailId} star status updated.`)
-        loadMails()
-        updateMailCounts()
-      })
+    mailService.updateStarStatus(mailId).then(() => {
+      console.log(`Mail ID: ${mailId} star status updated.`)
+      loadMails()
+      updateMailCounts()
     })
   }
 
@@ -115,13 +112,10 @@ export function MailIndex() {
 
   function handleToggleReadStatus(mailId) {
     console.log(`Toggling read status for mail ID: ${mailId}`)
-    mailService.get(mailId).then((mail) => {
-      const newReadStatus = !mail.isRead
-      mailService.updateReadStatus(mailId, newReadStatus).then(() => {
-        console.log(`Mail ID: ${mailId} read status updated.`)
-        loadMails()
-        updateMailCounts()
-      })
+    mailService.toggleReadStatus(mailId).then(() => {
+      console.log(`Mail ID: ${mailId} read status updated.`)
+      loadMails()
+      updateMailCounts()
     })
   }
 

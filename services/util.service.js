@@ -5,7 +5,11 @@ export const utilService = {
   padNum,
   getDayName,
   getMonthName,
-  getDisplayText
+  getDisplayText,
+  formatTime,
+  formatDate,
+  isToday,
+  displayDateOrTime,
 }
 
 export function saveToStorage(key, val) {
@@ -61,7 +65,7 @@ function makeLorem(size = 100) {
     'was',
     'a pleasure',
     'to',
-    'burn'
+    'burn',
   ]
   var txt = ''
   while (size > 0) {
@@ -136,4 +140,27 @@ export function animateCSS(el, animation = '', isRemoveClass = true) {
 
     el.addEventListener('animationend', handleAnimationEnd, { once: true })
   })
+}
+
+export function formatTime(date) {
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutes}`
+}
+
+export function formatDate(date) {
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}/${month}/${year}`
+}
+
+export function isToday(date) {
+  const today = new Date()
+  return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()
+}
+
+export function displayDateOrTime(createdAt) {
+  const date = new Date(createdAt)
+  return isToday(date) ? formatTime(date) : formatDate(date)
 }
