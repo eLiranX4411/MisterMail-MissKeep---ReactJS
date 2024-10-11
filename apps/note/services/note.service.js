@@ -12,7 +12,10 @@ export const noteService = {
   getFilterFromSearchParams,
   debounce,
   getEmptyNote,
-  getUniqueId
+  getUniqueId,
+  getEmptyTodosNote,
+  getEmptyImgNote,
+  getEmptyVideoNote
 }
 
 var gNotes = [
@@ -38,8 +41,8 @@ var gNotes = [
       backgroundColor: ''
     },
     info: {
-      url: 'http://some-img/me',
-      title: 'Img me'
+      url: '../../../apps/note/img/missKeep.png',
+      title: 'Miss keep 👩'
     }
   },
   {
@@ -67,8 +70,8 @@ var gNotes = [
       backgroundColor: ''
     },
     info: {
-      url: 'http://some-img/me',
-      title: 'Video me'
+      url: '../../../apps/note/video/javascript.mp4',
+      title: 'Javascript Vs Python'
     }
   }
 ]
@@ -121,6 +124,54 @@ function getEmptyNote() {
     info: {
       title: '',
       txt: ''
+    }
+  }
+}
+
+function getEmptyTodosNote() {
+  return {
+    createdAt: Date.now(),
+    type: 'NoteTodos',
+    isPinned: true,
+    style: {
+      backgroundColor: ''
+    },
+    info: {
+      title: '',
+      todos: [
+        { txt: '', doneAt: null },
+        { txt: '', doneAt: null }
+      ]
+    }
+  }
+}
+
+function getEmptyImgNote() {
+  return {
+    createdAt: Date.now(),
+    type: 'NoteImg',
+    isPinned: false,
+    style: {
+      backgroundColor: ''
+    },
+    info: {
+      url: '',
+      title: ''
+    }
+  }
+}
+
+function getEmptyVideoNote() {
+  return {
+    createdAt: Date.now(),
+    type: 'NoteVideo',
+    isPinned: false,
+    style: {
+      backgroundColor: ''
+    },
+    info: {
+      url: '',
+      title: ''
     }
   }
 }

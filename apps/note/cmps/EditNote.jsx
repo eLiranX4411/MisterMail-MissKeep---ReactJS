@@ -97,32 +97,10 @@ export function EditNote() {
               <ul>
                 {info.todos.map((todo, idx) => (
                   <li key={idx}>
-                    <input
-                      type='text'
-                      value={todo.txt}
-                      onChange={(ev) => handleTodoChange(ev, idx)}
-                      name={`todo-${idx}`}
-                      id='todos'
-                    />
+                    <input type='text' value={todo.txt} onChange={(ev) => handleTodoChange(ev, idx)} name={`todo-${idx}`} id='todos' />
                   </li>
                 ))}
               </ul>
-            </React.Fragment>
-          )}
-
-          {/* Img */}
-          {type === 'NoteImg' && (
-            <React.Fragment>
-              <label htmlFor='img'>Image URL</label>
-              <input value={info.url} onChange={handleChange} type='text' name='img' id='img' />
-            </React.Fragment>
-          )}
-
-          {/* Video */}
-          {type === 'NoteVideo' && (
-            <React.Fragment>
-              <label htmlFor='video'>Video URL</label>
-              <input value={info.url} onChange={handleChange} type='text' name='video' id='video' />
             </React.Fragment>
           )}
 
