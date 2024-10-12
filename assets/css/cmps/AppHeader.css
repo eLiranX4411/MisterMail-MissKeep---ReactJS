@@ -1,6 +1,9 @@
+/* Header Styles */
 header {
   background: var(--app-primary1);
   border-bottom: 2px solid white;
+  position: relative; /* Ensure the header stays in flow */
+  z-index: 200; /* Higher than the sidebar */
 }
 
 header nav,
@@ -32,4 +35,25 @@ nav a.active {
   color: darkblue;
   font-weight: bold;
   text-decoration: underline;
+}
+
+/* Sidebar Styles */
+.notes-menu-container {
+  width: 80px;
+  background-color: var(--note-primary1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+  position: absolute;
+  top: 0; /* Align at the top of the viewport */
+  left: 0; /* Align to the left */
+  height: 100vh;
+  z-index: 150; /* Lower than the header */
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.notes-menu-container:hover {
+  width: 250px;
 }

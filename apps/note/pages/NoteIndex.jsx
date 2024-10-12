@@ -133,9 +133,7 @@ export function NoteIndex() {
       .save(updatedNoteColor)
       .then(() => {
         setNotes((Notes) => Notes.map((note) => (note.id === noteId ? updatedNoteColor : note)))
-        showSuccessMsg(
-          `Note ${updatedNoteColor.style.backgroundColor ? 'colored' : 'uncolored'} successfully!`
-        )
+        showSuccessMsg(`Note ${updatedNoteColor.style.backgroundColor ? 'colored' : 'uncolored'} successfully!`)
       })
       .catch((err) => {
         console.log('Problems style the note:', err)
@@ -157,33 +155,34 @@ export function NoteIndex() {
     <main className='notes-index'>
       {/* Hamburger Icon */}
       <header className='notes-nav-bar'>
-        <div className='notes-header-left'>
-          <div className='hamburger-icon' onClick={toggleMenu}>
-            &#9776; {/* hamburger icon */}
-          </div>
-          <div className='notes-logo'></div>
-        </div>
         <section className='notes-filter'>
           <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
         </section>
       </header>
 
       {/* Side Menu */}
-      {isMenuOpen && (
-        <section className='notes-menu-container'>
-          <div className='hamburger-icon-close' onClick={toggleMenu}>
-            &#9776; {/* hamburger icon */}
-          </div>
-          <ul className='notes-menu'>
-            <li className='notes'>
-              <Link to='/'>Home</Link>
-            </li>
-            <li className='notes-home'>
-              <Link to='/note'>Notes</Link>
-            </li>
-          </ul>
-        </section>
-      )}
+      <section className='notes-menu-container'>
+        <div className='hamburger-icon-close' onClick={toggleMenu}>
+          &#9776; {/* hamburger icon */}
+        </div>
+        <ul className='notes-menu'>
+          <li className='menu-item'>
+            <Link to='/'>
+              <i className='notes-menu-icon'>🏠</i> <span>Home</span>
+            </Link>
+          </li>
+          <li className='menu-item'>
+            <Link to='/note'>
+              <i className='notes-menu-icon'>📝</i> <span>Notes</span>
+            </Link>
+          </li>
+          <li className='menu-item'>
+            <Link to='/archive'>
+              <i className='notes-menu-icon'>📦</i> <span>Archive</span>
+            </Link>
+          </li>
+        </ul>
+      </section>
 
       {/* Notes Body */}
       <section className='notes-body'>

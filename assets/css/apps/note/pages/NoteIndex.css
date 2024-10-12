@@ -4,9 +4,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-
   gap: 5em;
-
   padding: 0.3rem 2rem;
   background-color: var(--note-primary1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
@@ -17,7 +15,7 @@
 
 /* Hamburger Icon */
 .hamburger-icon {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   cursor: pointer;
   margin-right: 1rem;
 }
@@ -28,52 +26,75 @@
   margin-inline: 1rem;
 }
 
-/* Side Menu - Initially Hidden */
+/* Side Menu - Initially Collapsed */
 .notes-menu-container {
-  width: 250px;
+  width: 80px;
   background-color: var(--note-primary1);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  display: none;
+  display: flex;
   flex-direction: column;
   padding-top: 1em;
-  overflow-y: auto;
   position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
   z-index: 150;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
 }
 
-/* Show Side Menu when Menu is Open */
-.notes-index .notes-menu-container {
-  display: flex;
+/* Expand Side Menu on Hover */
+.notes-menu-container:hover {
+  width: 250px;
 }
 
-/* Menu Items */
+/* Menu Icons and Items */
 .notes-menu {
   padding: 0;
   margin: 0;
 }
 
 .notes-menu li {
-  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+
+  margin-top: 5em;
 }
 
 .notes-menu li a {
   text-decoration: none;
   color: var(--note-primary3);
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 500;
   padding: 0.75rem 1rem;
   display: block;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, padding-left 0.3s;
   border-radius: 0 24px 24px 0;
+  white-space: nowrap;
 }
 
 .notes-menu li a:hover,
 .notes-menu li a.active {
   background-color: var(--note-primary7);
   color: var(--note-primary6);
+  padding-left: 1.5rem;
+}
+
+/* Icon Style */
+.notes-menu-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  transition: margin-right 0.3s ease-in-out;
+}
+
+/* Hide Icon Labels until Hover */
+.notes-menu li span {
+  display: none;
+  white-space: nowrap;
+}
+
+.notes-menu-container:hover li span {
+  display: inline;
 }
 
 /* Notes Body */
@@ -83,4 +104,22 @@
   flex-direction: column;
   padding: 2rem;
   overflow-y: auto;
+
+  margin-inline-start: 5em;
+}
+
+/* For Mobile - Adjustments */
+@media (max-width: 768px) {
+  .notes-menu-container {
+    width: 0;
+  }
+  .notes-menu-container:hover {
+    width: 250px;
+  }
+  .hamburger-icon {
+    font-size: 1.5rem;
+  }
+  .notes-body {
+    padding: 1rem;
+  }
 }

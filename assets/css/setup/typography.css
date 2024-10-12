@@ -9,6 +9,11 @@
 }
 
 @font-face {
+  font-family: Google-Sans;
+  src: url('../../fonts/ProductSans-Regular.ttf');
+}
+
+@font-face {
   font-family: Lato-Bold;
   src: url('../../fonts/Lato-Bold.ttf');
 }

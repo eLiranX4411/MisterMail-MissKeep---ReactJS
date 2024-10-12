@@ -8,8 +8,6 @@ export function AddNote({ handleAddNote }) {
   const [imgPreview, setImgPreview] = useState(null)
   const [videoPreview, setVideoPreview] = useState(null)
 
-  console.log(imgPreview)
-
   useEffect(() => {
     loadNote()
   }, [])

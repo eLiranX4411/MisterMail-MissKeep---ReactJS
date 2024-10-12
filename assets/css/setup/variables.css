@@ -13,11 +13,12 @@
   --mail-primary7: #f3c74b;
 
   /* Note App */
-  --note-primary1: #ffffff;
+  --note-primary1: #fff;
   --note-primary2: #f1f3f4;
-  --note-primary3: #c0c0c0;
-  --note-primary4: #feefc3;
-  --note-primary5: #e5e5e5;
-  --note-primary6: #fbbc04;
-  --note-primary7: #feefc3;
+  --note-primary3: #202124;
+  --note-primary4: #5f6368;
+  --note-primary5: #e8eaed;
+  --note-primary6: #4285f4;
+  --note-primary7: #fbbc04;
+  --note-primary8: #34a853;
 }

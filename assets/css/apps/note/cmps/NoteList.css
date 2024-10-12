@@ -3,8 +3,11 @@
 .notes-list {
   display: flex;
   flex-wrap: wrap;
+
+  font-family: Google-Sans;
+
   gap: 1em;
-  padding: 1em;
+  padding: 2em;
   justify-content: flex-start;
 }
 
@@ -15,7 +18,7 @@
 
   min-width: 250px;
   min-height: 100px;
-  padding: 1em;
+  padding: 3em;
 
   /* background-color: var(--note-primary1); */
   border-radius: 8px;
@@ -23,12 +26,34 @@
 
 .notes-preview:hover .notes-actions {
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
   flex-wrap: wrap;
+
+  gap: 0.5rem;
+  transition: 0.3s ease-in;
+  opacity: 1;
+}
+
+.note-img-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1em;
+}
+
+.note-video-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1em;
 }
 
 .notes-actions {
-  display: none;
+  opacity: 0;
 }
 
 .notes-preview:hover {
