@@ -9,6 +9,12 @@ export const mailService = {
   get,
   remove,
   save,
+  send,
+  saveDraft,
+  clearDraft,
+  markAsSpam,
+  getSpamMails,
+  restoreFromTrash,
   getEmptyMail,
   getDefaultFilter,
   getFilterFromSearchParams,
@@ -20,6 +26,7 @@ export const mailService = {
   getUnreadMails,
   getStarredMails,
   getMailsByLabel,
+  addLabel,
   setFilter,
   getFilter,
   clearFilter,
@@ -32,6 +39,7 @@ export const mailService = {
   updateReadStatus,
   toggleReadStatus,
   updateStarStatus,
+  getLoggedInUser, // פונקציה לקבלת פרטי המשתמש
 }
 
 const loggedinUser = {
@@ -47,7 +55,11 @@ let filterBy = {
   isDraft: undefined,
 }
 
-// פונקציה לשליפת מיילים לפי קטגוריה מסוימת (למשל קבלת מיילים שנשלחו, טיוטות וכו')
+// פונקציה שמחזירה את פרטי המשתמש המחובר
+function getLoggedInUser() {
+  return loggedinUser
+}
+
 function query(customFilterBy = {}) {
   return storageService.query(MAIL_KEY).then((mails) => {
     if (customFilterBy.txt) {
@@ -79,7 +91,6 @@ function query(customFilterBy = {}) {
   })
 }
 
-// פונקציה לשליפת מיילים לפי אובייקט ה-filterBy השמור, כולל טיפול בערכים null או undefined
 function queryByFilter(filterBy = {}) {
   return storageService.query(MAIL_KEY).then((mails) => {
     if (filterBy.txt) {
@@ -108,6 +119,29 @@ function queryByFilter(filterBy = {}) {
     }
     return mails
   })
+}
+
+function send(mail) {
+  if (!mail.to || !mail.subject || !mail.body) {
+    return Promise.reject('All fields are required to send the mail.')
+  }
+
+  mail.isDraft = false
+  mail.sentAt = Date.now()
+  return save(mail)
+}
+
+function saveDraft(mail) {
+  mail.isDraft = true
+  return save(mail)
+}
+
+function clearDraft(mail) {
+  mail.to = ''
+  mail.subject = ''
+  mail.body = ''
+  mail.isDraft = true
+  return save(mail)
 }
 
 function toggleReadStatus(mailId) {
@@ -171,6 +205,26 @@ function updateReadStatus(mailId, isRead) {
   return storageService.get(MAIL_KEY, mailId).then((mail) => {
     mail.isRead = isRead
     mail.readAt = isRead ? Date.now() : null
+    return storageService.put(MAIL_KEY, mail)
+  })
+}
+
+function markAsSpam(mailId) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    mail.isSpam = true
+    return storageService.put(MAIL_KEY, mail)
+  })
+}
+
+function getSpamMails() {
+  return query({ isSpam: true }).then(sortMailsByDateDesc)
+}
+
+function addLabel(mailId, label) {
+  return storageService.get(MAIL_KEY, mailId).then((mail) => {
+    if (!mail.labels.includes(label)) {
+      mail.labels.push(label)
+    }
     return storageService.put(MAIL_KEY, mail)
   })
 }
