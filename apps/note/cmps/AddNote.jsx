@@ -131,113 +131,117 @@ export function AddNote({ handleAddNote }) {
     <React.Fragment>
       <form onSubmit={onAddNote} className='add-note'>
         <div className={`add-note-container ${isExpanded ? 'expanded' : ''}`}>
-          {isExpanded && type === 'NoteTxt' ? (
-            <React.Fragment>
-              <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
-              <textarea name='txt' placeholder='Take a note...' value={txt} onChange={handleChange} className='add-note-text' />
-              {/* <input type='file' accept='image/*' className='add-note-image' /> */}
-              <button type='submit' className='add-note-btn'>
-                Add Note
-              </button>
-              <button onClick={handleExpandFalse} type='button'>
-                x
-              </button>
-            </React.Fragment>
-          ) : (
-            <input type='text' placeholder='Take a note...' className='add-note-placeholder' onClick={handleExpand} />
-          )}
+          {/* Always show the placeholder and type buttons */}
+          <input type='text' placeholder='Take a note...' className='add-note-placeholder' onClick={handleExpand} />
 
-          {isExpanded && type === 'NoteTodos' && (
-            <React.Fragment>
-              <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
-              <ul>
-                {todos.map((todo, idx) => (
-                  <li key={idx}>
-                    <input type='text' value={todo.txt} onChange={(ev) => handleTodoChange(ev, idx)} placeholder='Todo item' />
-                  </li>
-                ))}
-              </ul>
-              <button type='submit' className='add-note-btn'>
-                Add Todos Note
+          {/* Always render note-type-buttons */}
+          <div className='add-note-bar'>
+            <div className='note-type-buttons'>
+              <button
+                type='button'
+                className='txt-btn-note'
+                onClick={() => {
+                  setNoteType('NoteTxt')
+                  setIsExpanded(true)
+                }}
+              >
+                Text
               </button>
-              <button onClick={handleExpandFalse} type='button'>
-                x
+              <button
+                type='button'
+                className='todos-btn-note'
+                onClick={() => {
+                  setNoteType('NoteTodos')
+                  setIsExpanded(true)
+                }}
+              >
+                Todos
               </button>
-            </React.Fragment>
-          )}
-          {isExpanded && type === 'NoteImg' && (
-            <React.Fragment>
-              <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
-              <input type='file' accept='image/*' onChange={handleFileChange} />
-              {imgPreview && (
-                <div className='img-preview'>
-                  <img src={imgPreview} alt='Preview' style={{ maxWidth: '250px', maxHeight: '250px' }} />
-                </div>
-              )}
-              <button type='submit' className='add-note-btn'>
-                Add Img Note
+              <button
+                type='button'
+                className='img-btn-note'
+                onClick={() => {
+                  setNoteType('NoteImg')
+                  setIsExpanded(true)
+                }}
+              >
+                Img
               </button>
-              <button onClick={handleExpandFalse} type='button'>
-                x
+              <button
+                type='button'
+                className='video-btn-note'
+                onClick={() => {
+                  setNoteType('NoteVideo')
+                  setIsExpanded(true)
+                }}
+              >
+                Video
               </button>
-            </React.Fragment>
-          )}
+            </div>
+          </div>
 
-          {isExpanded && type === 'NoteVideo' && (
+          {/* Render expanded content based on the note type */}
+          {isExpanded && (
             <React.Fragment>
-              <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
-              <input type='file' name='video' accept='video/*' onChange={handleVideoChange} />
-              {videoPreview && (
-                <div className='video-preview'>
-                  <video width='250' height='250'>
-                    <source src={videoPreview} type='video/mp4' />
-                  </video>
-                </div>
+              {type === 'NoteTxt' && (
+                <React.Fragment>
+                  <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
+                  <textarea name='txt' placeholder='Take a note...' value={txt} onChange={handleChange} className='add-note-text' />
+                </React.Fragment>
               )}
-              <button type='submit' className='add-note-btn'>
-                Add Video Note
-              </button>
-              <button onClick={handleExpandFalse} type='button'>
-                x
-              </button>
+
+              {type === 'NoteTodos' && (
+                <React.Fragment>
+                  <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
+                  <ul className='todos-item'>
+                    {todos.map((todo, idx) => (
+                      <li key={idx}>
+                        <input type='text' value={todo.txt} onChange={(ev) => handleTodoChange(ev, idx)} placeholder='Todo item' />
+                      </li>
+                    ))}
+                  </ul>
+                </React.Fragment>
+              )}
+
+              {type === 'NoteImg' && (
+                <React.Fragment>
+                  <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
+                  <input type='file' accept='image/*' onChange={handleFileChange} />
+                  {imgPreview && (
+                    <div className='img-preview'>
+                      <img src={imgPreview} alt='Preview' />
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+
+              {type === 'NoteVideo' && (
+                <React.Fragment>
+                  <input type='text' name='title' placeholder='Title' value={title} onChange={handleChange} className='add-note-title' />
+                  <input type='file' name='video' accept='video/*' onChange={handleVideoChange} />
+                  {videoPreview && (
+                    <div className='video-preview'>
+                      <video width='250' height='250'>
+                        <source src={videoPreview} type='video/mp4' />
+                      </video>
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+
+              {/* Action buttons for adding notes */}
+              <div className='add-close-btns'>
+                <button type='submit' className='add-note-btn'>
+                  {type === 'NoteTxt' ? 'Add Note' : type === 'NoteTodos' ? 'Add Todos Note' : type === 'NoteImg' ? 'Add Img Note' : 'Add Video Note'}
+                </button>
+                <button className='close-add-btn' onClick={handleExpandFalse} type='button'>
+                  x
+                </button>
+              </div>
             </React.Fragment>
           )}
         </div>
       </form>
-
-      <button className='txt-btn-note' onClick={() => setNoteType('NoteTxt')}>
-        Text
-      </button>
-
-      <button
-        className='todos-btn-note'
-        onClick={() => {
-          setNoteType('NoteTodos')
-          handleExpand()
-        }}
-      >
-        Todos
-      </button>
-
-      <button
-        className='img-btn-note'
-        onClick={() => {
-          setNoteType('NoteImg')
-          handleExpand()
-        }}
-      >
-        Img
-      </button>
-
-      <button
-        className='video-btn-note'
-        onClick={() => {
-          setNoteType('NoteVideo')
-          handleExpand()
-        }}
-      >
-        Video
-      </button>
     </React.Fragment>
   )
 }

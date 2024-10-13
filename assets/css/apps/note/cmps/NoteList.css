@@ -3,12 +3,7 @@
 .notes-list {
   display: flex;
   flex-wrap: wrap;
-
   font-family: Google-Sans;
-
-  gap: 1em;
-  padding: 2em;
-  justify-content: flex-start;
 }
 
 .notes-preview {
@@ -16,11 +11,10 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  min-width: 250px;
-  min-height: 100px;
-  padding: 3em;
+  min-width: 400px;
+  min-height: 200px;
+  padding: 3rem;
 
-  /* background-color: var(--note-primary1); */
   border-radius: 8px;
 }
 

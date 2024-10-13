@@ -1,59 +1,93 @@
 /* Header Styles */
 header {
-  background: var(--app-primary1);
-  border-bottom: 2px solid white;
-  position: relative; /* Ensure the header stays in flow */
-  z-index: 200; /* Higher than the sidebar */
-}
-
-header nav,
-header a {
-  margin-inline: 2em;
+  background-color: #f8f9fa; /* Light gray background */
+  border-bottom: 2px solid #e0e0e0; /* Slightly darker gray for separation */
+  position: relative;
+  z-index: 200;
+  padding: 15px 20px;
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
 }
 
-.appsy-logo {
-  width: 150px;
-  height: 60px;
+.app-title {
+  font-size: 1.5rem; /* Adjust size as needed */
+  color: #343a40; /* Dark gray for text */
 }
 
-nav a {
-  margin: 0.5em;
-}
-
-nav a:active {
-  color: purple;
-}
-
-nav a.active {
-  color: darkblue;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-/* Sidebar Styles */
-.notes-menu-container {
-  width: 80px;
-  background-color: var(--note-primary1);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+/* Desktop Navigation */
+.nav-desktop {
   display: flex;
-  flex-direction: column;
-  padding-top: 1em;
-  position: absolute;
-  top: 0; /* Align at the top of the viewport */
-  left: 0; /* Align to the left */
-  height: 100vh;
-  z-index: 150; /* Lower than the header */
-  transition: width 0.3s ease-in-out;
-  overflow: hidden;
+  gap: 20px; /* Space between links */
 }
 
-.notes-menu-container:hover {
-  width: 250px;
+.nav-desktop a {
+  text-decoration: none;
+  color: #343a40; /* Dark gray for links */
+  font-weight: 500;
+}
+
+.nav-desktop a:hover {
+  color: #007bff; /* Blue color on hover */
+}
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.line {
+  width: 30px; /* Width of hamburger lines */
+  height: 3px; /* Height of hamburger lines */
+  background-color: #343a40; /* Dark gray for lines */
+  margin: 3px 0; /* Space between lines */
+}
+
+/* Mobile Navigation Styles */
+.nav-mobile {
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  background-color: white; /* White background for mobile menu */
+  position: absolute;
+  top: 60px; /* Align under header */
+  left: 0;
+  right: 0; /* Full width */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  z-index: 100; /* Appear above content */
+  transition: max-height 0.3s ease-in-out;
+}
+
+.nav-mobile.show {
+  display: flex; /* Show when toggled */
+}
+
+.nav-mobile a {
+  padding: 15px 20px; /* Space around links */
+  text-decoration: none;
+  color: #343a40; /* Dark gray for links */
+  border-bottom: 1px solid #e0e0e0; /* Light gray separator */
+}
+
+.nav-mobile a:hover {
+  background-color: #f1f1f1; /* Slightly darker gray on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none; /* Hide desktop menu on mobile */
+  }
+
+  .hamburger-menu {
+    display: flex; /* Show hamburger on mobile */
+  }
+
+  .nav-mobile {
+    display: flex; /* Flex container */
+  }
 }

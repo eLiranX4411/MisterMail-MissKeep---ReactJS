@@ -70,6 +70,8 @@ export function NoteIndex() {
     noteService
       .remove(noteId)
       .then(() => {
+        console.log(noteId)
+
         setNotes((notes) => notes.filter((note) => note.id !== noteId))
         showSuccessMsg(`Note removed successfully!`)
       })
@@ -153,36 +155,12 @@ export function NoteIndex() {
 
   return (
     <main className='notes-index'>
-      {/* Hamburger Icon */}
+      {/* Header with Filters */}
       <header className='notes-nav-bar'>
         <section className='notes-filter'>
           <NotesFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
         </section>
       </header>
-
-      {/* Side Menu */}
-      <section className='notes-menu-container'>
-        <div className='hamburger-icon-close' onClick={toggleMenu}>
-          &#9776; {/* hamburger icon */}
-        </div>
-        <ul className='notes-menu'>
-          <li className='menu-item'>
-            <Link to='/'>
-              <i className='notes-menu-icon'>🏠</i> <span>Home</span>
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link to='/note'>
-              <i className='notes-menu-icon'>📝</i> <span>Notes</span>
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link to='/archive'>
-              <i className='notes-menu-icon'>📦</i> <span>Archive</span>
-            </Link>
-          </li>
-        </ul>
-      </section>
 
       {/* Notes Body */}
       <section className='notes-body'>

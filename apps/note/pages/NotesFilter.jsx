@@ -4,7 +4,7 @@ const { useState, useEffect, useRef } = React
 
 export function NotesFilter({ filterBy, onSetFilterBy }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false) // For toggling dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   useEffect(() => {
     onSetFilterBy(filterByToEdit)
@@ -29,14 +29,12 @@ export function NotesFilter({ filterBy, onSetFilterBy }) {
 
   return (
     <section className='filter-by'>
-      <label htmlFor='title'>
-        <input onChange={handleChange} value={title} type='search' name='title' id='title' placeholder='🍷 Search' />
-      </label>
-
-      <div className='hamburger-icon-filter'>
-        <button className='hamburger-btn' onClick={toggleDropdown}>
-          <div>{filterIconSvg.filterIcon}</div>
-        </button>
+      <div className='type-icon-filter'>
+        <div className='type-filter'>
+          <button className='type-btn' onClick={toggleDropdown}>
+            <div>Filter By Type</div>
+          </button>
+        </div>
 
         {isDropdownOpen && (
           <ul className='custom-dropdown'>
@@ -47,6 +45,10 @@ export function NotesFilter({ filterBy, onSetFilterBy }) {
             <li onClick={() => handleChange({ target: { name: 'type', value: 'NoteVideo' } })}>Videos</li>
           </ul>
         )}
+      </div>
+
+      <div className='search-filter'>
+        <input onChange={handleChange} value={title} type='search' name='title' id='title' placeholder='Search' />
       </div>
     </section>
   )
