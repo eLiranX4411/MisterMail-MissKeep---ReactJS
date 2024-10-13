@@ -1,4 +1,5 @@
 const { useState, useEffect } = React
+const { useNavigate } = ReactRouterDOM
 import { mailService } from '../../../apps/mail/services/mail.service.js'
 import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService.js'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
@@ -11,6 +12,7 @@ export function MailIndex() {
   const [filterBy, setFilterBy] = useState({})
   const [loading, setLoading] = useState(true)
   const [mailCounts, setMailCounts] = useState({})
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
@@ -132,12 +134,27 @@ export function MailIndex() {
   }
 
   function handleOpenMail(mailId) {
-    console.log(`Opening mail with ID: ${mailId}`)
+    mailService.get(mailId).then((mail) => {
+      console.log(mail)
+
+      if (!mail.isRead) {
+        mailService.updateReadStatus(mailId, true).then(() => {
+          console.log(`Mail ID: ${mailId} marked as read.`)
+        })
+      }
+
+      if (mail.isDraft) {
+        navigate(`/mail/edit/${mailId}`)
+      } else {
+        navigate(`/mail/details/${mailId}`)
+      }
+    })
   }
 
   function handleComposeClick() {
-    console.log('Compose button clicked!')
+    navigate('/mail/edit')
   }
+
   function handleSetFilter(newFilter) {
     console.log('Setting new filter:', newFilter)
     setFilterBy(newFilter)
