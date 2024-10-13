@@ -24,6 +24,8 @@ export function MailCompose() {
     createdAt: Date.now(),
   })
 
+  const [isDraft, setIsDraft] = useState(false)
+  const [isEditable, setIsEditable] = useState(true)
   const loggedinUser = mailService.getLoggedInUser()
 
   useEffect(() => {
@@ -31,13 +33,14 @@ export function MailCompose() {
       mailService.get(mailId).then((loadedMail) => {
         if (loadedMail.isDraft) {
           setMail(loadedMail)
+          setIsDraft(true)
         } else {
-          alert('Cannot edit this email. It is not a draft.')
-          navigate('/mail/edit')
+          setMail(loadedMail)
+          setIsEditable(false)
         }
       })
     }
-  }, [mailId, navigate])
+  }, [mailId])
 
   function handleChange(ev) {
     const { name, value } = ev.target
@@ -77,34 +80,51 @@ export function MailCompose() {
     <div className='compose-container'>
       <div className='compose-box'>
         <div className='compose-header'>
-          <button className='compose-close-btn' onClick={onSaveDraft}>
-            ✖
-          </button>
-          New Message {mail.isDraft && <span style={{ color: 'red' }}>(Draft)</span>}
+          {!isEditable ? (
+            <button className='compose-close-btn' onClick={() => navigate('/mail')}>
+              ✖
+            </button>
+          ) : (
+            <button className='compose-close-btn' onClick={onSaveDraft}>
+              ✖
+            </button>
+          )}
+          {isEditable ? (
+            <React.Fragment>New Message {isDraft && <span style={{ color: 'red' }}>(Draft)</span>}</React.Fragment>
+          ) : (
+            <React.Fragment>{mail.subject}</React.Fragment>
+          )}
         </div>
         <div className='compose-content'>
           <div className='input-group'>
             <label>From:</label>
-            <span>{loggedinUser.email}</span>
+            <span>{isDraft ? loggedinUser.email : mail.from}</span>
           </div>
           <div className='input-group'>
             <label>To:</label>
-            <input type='text' name='to' value={mail.to} onChange={handleChange} />
+            {!isEditable ? <span>{mail.to}</span> : <input type='text' name='to' value={mail.to} onChange={handleChange} />}
           </div>
           <div className='input-group'>
             <label>Subject:</label>
-            <input type='text' name='subject' value={mail.subject} onChange={handleChange} />
+            {!isEditable ? <span>{mail.subject}</span> : <input type='text' name='subject' value={mail.subject} onChange={handleChange} />}
           </div>
           <div className='input-group'>
-            <label>Body:</label>
-            <textarea name='body' rows='5' value={mail.body} onChange={handleChange}></textarea>
+            {!isEditable ? <p>{mail.body}</p> : <textarea name='body' rows='5' value={mail.body} onChange={handleChange}></textarea>}
           </div>
+          {!isEditable && (
+            <div className='input-group'>
+              <label>Sent At:</label>
+              <span>{new Date(mail.sentAt).toLocaleString()}</span>
+            </div>
+          )}
         </div>
-        <div className='compose-footer'>
-          <button className='compose-btn-send' onClick={onSendMail}>
-            Send
-          </button>
-        </div>
+        {isEditable && (
+          <div className='compose-footer'>
+            <button className='compose-btn-send' onClick={onSendMail}>
+              Send
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
