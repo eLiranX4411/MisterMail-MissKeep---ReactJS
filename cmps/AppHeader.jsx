@@ -21,21 +21,35 @@ export function AppHeader() {
         <h1>Miss Notes</h1>
       </div>
 
-      <div className='note-header-right'>
-        {/* Settings Icon with Dropdown */}
-        <button className='note-settings-btn' onClick={toggleSettingsMenu}>
-          ⚙️
-        </button>
+      <nav className='nav-desktop'>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/about'>About</NavLink>
+        <NavLink to='/mail'>Mail</NavLink>
+        <NavLink to='/note'>Note</NavLink>
+      </nav>
 
-        {/* Dropdown Menu */}
-        {isSettingsOpen && (
-          <ul className='settings-dropdown'>
-            <li>
-              <Link to='/'>🏠 Home</Link>
-            </li>
-          </ul>
-        )}
+      {/* Hamburger Menu Icon */}
+      <div className='hamburger-menu' onClick={toggleMenu}>
+        <div className='line'></div>
+        <div className='line'></div>
+        <div className='line'></div>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      <nav className={`nav-mobile ${isMenuOpen ? 'show' : ''}`}>
+        <NavLink to='/' onClick={toggleMenu}>
+          Home
+        </NavLink>
+        <NavLink to='/about' onClick={toggleMenu}>
+          About
+        </NavLink>
+        <NavLink to='/mail' onClick={toggleMenu}>
+          Mail
+        </NavLink>
+        <NavLink to='/note' onClick={toggleMenu}>
+          Note
+        </NavLink>
+      </nav>
     </header>
   )
 
@@ -45,22 +59,35 @@ export function AppHeader() {
         <img className='mail-logo' src='../../../apps/mail/img/misterMail.png' alt='Gmail Logo' />
         <h2>Mister Mail</h2>
       </div>
+      <nav className='nav-desktop'>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/about'>About</NavLink>
+        <NavLink to='/mail'>Mail</NavLink>
+        <NavLink to='/note'>Note</NavLink>
+      </nav>
 
-      <div className='mail-header-right'>
-        {/* Settings Icon with Dropdown */}
-        <button className='mail-settings-btn' onClick={toggleSettingsMenu}>
-          ⚙️
-        </button>
-
-        {/* Dropdown Menu */}
-        {isSettingsOpen && (
-          <ul className='settings-dropdown'>
-            <li>
-              <Link to='/'>🏠 Home</Link>
-            </li>
-          </ul>
-        )}
+      {/* Hamburger Menu Icon */}
+      <div className='hamburger-menu' onClick={toggleMenu}>
+        <div className='line'></div>
+        <div className='line'></div>
+        <div className='line'></div>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      <nav className={`nav-mobile ${isMenuOpen ? 'show' : ''}`}>
+        <NavLink to='/' onClick={toggleMenu}>
+          Home
+        </NavLink>
+        <NavLink to='/about' onClick={toggleMenu}>
+          About
+        </NavLink>
+        <NavLink to='/mail' onClick={toggleMenu}>
+          Mail
+        </NavLink>
+        <NavLink to='/note' onClick={toggleMenu}>
+          Note
+        </NavLink>
+      </nav>
     </header>
   )
 

@@ -5,12 +5,9 @@ header {
   position: relative;
   z-index: 200;
   padding: 15px 20px;
-}
-
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; /* Flexbox layout for header */
+  justify-content: space-between; /* Space between title and nav */
+  align-items: center; /* Center items vertically */
 }
 
 .app-title {
@@ -46,6 +43,7 @@ header {
   height: 3px; /* Height of hamburger lines */
   background-color: #343a40; /* Dark gray for lines */
   margin: 3px 0; /* Space between lines */
+  transition: background-color 0.3s ease; /* Smooth transition for line color */
 }
 
 /* Mobile Navigation Styles */
@@ -59,11 +57,17 @@ header {
   right: 0; /* Full width */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
   z-index: 100; /* Appear above content */
-  transition: max-height 0.3s ease-in-out;
+  opacity: 0; /* Start as invisible */
+  transform: translateY(-10px); /* Slightly offset for the transition */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  pointer-events: none; /* Disable interactions when hidden */
 }
 
 .nav-mobile.show {
   display: flex; /* Show when toggled */
+  opacity: 1; /* Fully visible */
+  transform: translateY(0); /* Reset offset */
+  pointer-events: auto; /* Enable interactions */
 }
 
 .nav-mobile a {
