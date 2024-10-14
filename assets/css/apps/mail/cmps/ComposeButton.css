@@ -1,15 +1,13 @@
 .compose-btn {
   display: flex;
-  align-items: center;
   background-color: #d0e8fd;
   color: black;
   border: none;
   border-radius: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 15px 0px;
+  font-size: 22px;
   font-weight: bold;
   cursor: pointer;
-  width: 60px;
   height: 50px;
   overflow: hidden;
   white-space: nowrap;
@@ -18,19 +16,8 @@
 
 .compose-btn:hover {
   background-color: #a0d4fa;
-  width: 140px;
 }
 
 .compose-btn:active {
   background-color: #78c1f7;
-}
-
-.compose-btn .text {
-  margin-left: 10px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.compose-btn:hover .text {
-  opacity: 1;
 }

@@ -5,10 +5,12 @@ import { mailLoaderService } from '../../../apps/mail/services/mailLoaderService
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailFilter } from '../cmps/MailFilter.jsx'
+import { icons } from '../cmps/SvgIcons.jsx'
+import { createMailNote } from '../../../apps/note/services/note.service.js'
 
 export function MailIndex() {
   const [mails, setMails] = useState([])
-  const [activeFilter, setActiveFilter] = useState('all')
+  const [activeFilter, setActiveFilter] = useState('received')
   const [filterBy, setFilterBy] = useState({})
   const [loading, setLoading] = useState(true)
   const [mailCounts, setMailCounts] = useState({})
@@ -81,26 +83,27 @@ export function MailIndex() {
   function updateMailCounts() {
     console.log('Updating mail counts...')
     const filterMethodMap = {
-      all: 'query',
       sent: 'getSentMails',
       received: 'getReceivedMails',
-      unread: 'getUnreadMails',
-      readed: 'getReadedMails',
       starred: 'getStarredMails',
       draft: 'getDraftMails',
       trash: 'getTrashMails',
     }
 
-    const mailTypes = ['all', 'sent', 'received', 'unread', 'readed', 'starred', 'draft', 'trash']
-    const countsPromises = mailTypes.map((type) => mailService[filterMethodMap[type]]())
+    const mailTypes = ['sent', 'received', 'starred', 'draft', 'trash']
+    const countsPromises = mailTypes.map((type) =>
+      mailService[filterMethodMap[type]]().then(
+        (mails) => mails.filter((mail) => !mail.isRead).length // סופר רק מיילים שלא נקראו
+      )
+    )
 
     Promise.all(countsPromises)
       .then((results) => {
-        const newCounts = results.reduce((acc, mails, idx) => {
-          acc[mailTypes[idx]] = mails.length
+        const newCounts = results.reduce((acc, unreadCount, idx) => {
+          acc[mailTypes[idx]] = unreadCount
           return acc
         }, {})
-        console.log('Mail counts updated:', newCounts)
+        console.log('Unread mail counts updated:', newCounts)
         setMailCounts(newCounts)
       })
       .catch((err) => console.log('Error updating mail counts:', err))
@@ -162,18 +165,40 @@ export function MailIndex() {
     loadMails('custom')
   }
 
+  function createNote(mailId) {
+    mailService
+      .get(mailId)
+      .then((mail) => {
+        if (mail) {
+          console.log(`Creating note for mail ID: ${mailId}`)
+          console.log(`Title: ${mail.subject}`)
+          console.log(`Content: ${mail.body}`)
+
+          createMailNote(mail.subject, mail.body)
+            .then((noteId) => {
+              console.log(`Note created successfully with ID: ${noteId}`)
+              navigate(`/note/edit/${noteId}`)
+            })
+            .catch((err) => {
+              console.error('Failed to create note:', err)
+            })
+        } else {
+          console.log(`Mail with ID: ${mailId} not found.`)
+        }
+      })
+      .catch((err) => {
+        console.error(`Error fetching mail with ID: ${mailId}`, err)
+      })
+  }
+
   return (
     <div className='mail-index-container'>
       <section className='section-a'>
-        <button className='compose-btn' onClick={handleComposeClick}>
-          ✏️
-          <span className='text'>Compose</span>
-        </button>
         <MailFilter onSetFilter={handleSetFilter} />
       </section>
 
       <section className='section-b'>
-        <MailFolderList activeFilter={activeFilter} setActiveFilter={setActiveFilter} mailCounts={mailCounts} />
+        <MailFolderList activeFilter={activeFilter} setActiveFilter={setActiveFilter} mailCounts={mailCounts} onComposeClick={handleComposeClick} />
         <MailList
           mails={mails}
           loading={loading}
@@ -181,6 +206,7 @@ export function MailIndex() {
           onRemoveMail={handleRemoveMail}
           onToggleRead={handleToggleReadStatus}
           onOpenMail={handleOpenMail}
+          onCreateNote={createNote}
         />
       </section>
     </div>

@@ -16,7 +16,8 @@ export const noteService = {
   getUniqueId,
   getEmptyTodosNote,
   getEmptyImgNote,
-  getEmptyVideoNote
+  getEmptyVideoNote,
+  createMailNote,
 }
 
 var gNotes = [
@@ -26,12 +27,12 @@ var gNotes = [
     type: 'NoteTxt',
     isPinned: true,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       title: 'Fullstack',
-      txt: 'Me Baby!'
-    }
+      txt: 'Me Baby!',
+    },
   },
   {
     id: 'n102',
@@ -39,12 +40,12 @@ var gNotes = [
     type: 'NoteImg',
     isPinned: false,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       url: '../../../apps/note/img/missKeep.png',
-      title: 'Miss keep 👩'
-    }
+      title: 'Miss keep 👩',
+    },
   },
   {
     id: 'n103',
@@ -52,15 +53,15 @@ var gNotes = [
     type: 'NoteTodos',
     isPinned: true,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       title: 'Get my stuff together',
       todos: [
         { txt: 'Driving license', doneAt: null },
-        { txt: 'Coding power', doneAt: null }
-      ]
-    }
+        { txt: 'Coding power', doneAt: null },
+      ],
+    },
   },
   {
     id: 'n104',
@@ -68,13 +69,13 @@ var gNotes = [
     type: 'NoteVideo',
     isPinned: false,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       url: '../../../apps/note/video/javascript.mp4',
-      title: 'Javascript Vs Python'
-    }
-  }
+      title: 'Javascript Vs Python',
+    },
+  },
 ]
 
 function query(filterBy = {}) {
@@ -124,12 +125,12 @@ function getEmptyNote() {
     type: 'NoteTxt',
     isPinned: false,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       title: '',
-      txt: ''
-    }
+      txt: '',
+    },
   }
 }
 
@@ -139,15 +140,15 @@ function getEmptyTodosNote() {
     type: 'NoteTodos',
     isPinned: true,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       title: '',
       todos: [
         { txt: '', doneAt: null },
-        { txt: '', doneAt: null }
-      ]
-    }
+        { txt: '', doneAt: null },
+      ],
+    },
   }
 }
 
@@ -157,12 +158,12 @@ function getEmptyImgNote() {
     type: 'NoteImg',
     isPinned: false,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       url: '',
-      title: ''
-    }
+      title: '',
+    },
   }
 }
 
@@ -172,12 +173,12 @@ function getEmptyVideoNote() {
     type: 'NoteVideo',
     isPinned: false,
     style: {
-      backgroundColor: ''
+      backgroundColor: '',
     },
     info: {
       url: '',
-      title: ''
-    }
+      title: '',
+    },
   }
 }
 
@@ -186,7 +187,7 @@ function getFilterFromSearchParams(searchParams) {
   const type = searchParams.get('type') || ''
   return {
     type,
-    title
+    title,
   }
 }
 
@@ -209,6 +210,33 @@ function getUniqueId(length = 4) {
   }
 
   return txt
+}
+
+export function createMailNote(title, body) {
+  const newNote = {
+    id: makeId(),
+    createdAt: Date.now(),
+    type: 'NoteTxt',
+    isPinned: false,
+    style: {
+      backgroundColor: '',
+    },
+    info: {
+      title: title,
+      txt: body,
+    },
+  }
+
+  return noteService
+    .post(newNote)
+    .then((savedNote) => {
+      console.log('Note created successfully:', savedNote)
+      return savedNote.id
+    })
+    .catch((err) => {
+      console.error('Failed to create note:', err)
+      throw err
+    })
 }
 
 //////////////////////TrashCan///////////////////////////

@@ -2,7 +2,7 @@ const { useState } = React
 import { LongTxt } from '../../../cmps/LongTxt.jsx'
 import { utilService } from '../../../services/util.service.js'
 
-export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDeleteMail }) {
+export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDeleteMail, onCreateNote }) {
   const [isHovered, setIsHovered] = useState(false)
 
   if (!mail) return null
@@ -24,6 +24,11 @@ export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDe
   function handleDeleteClick(ev) {
     ev.stopPropagation()
     onDeleteMail(mail.id)
+  }
+
+  function handleCreateNoteClick(ev) {
+    ev.stopPropagation()
+    onCreateNote(mail.id)
   }
 
   return (
@@ -59,6 +64,9 @@ export function MailPreview({ mail, onOpenMail, onToggleStar, onToggleRead, onDe
             </button>
             <button className='mail-delete' onClick={handleDeleteClick}>
               🗑️
+            </button>
+            <button className='mail-delete' onClick={handleCreateNoteClick}>
+              📝
             </button>
           </div>
         )}
