@@ -81,12 +81,18 @@ export function EditNote() {
   }
 
   // TODO
-  function onRemoveTodo() {
-    const todoIdx = ''
-    setNoteToEdit((prevNote) => {
-      const updatedTodos = [...prevNote.info.todos, { txt: '' }]
-      return { ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }
-    })
+  function onRemoveTodo(idx) {
+    const updatedTodos = noteToEdit.info.todos.filter((_, todoIdx) => todoIdx !== idx)
+    setNoteToEdit((prevNote) => ({ ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }))
+
+    noteService
+      .save({ ...noteToEdit, info: { ...noteToEdit.info, todos: updatedTodos } })
+      .then(() => {
+        console.log('Todo removed successfully')
+      })
+      .catch((err) => {
+        console.log('Error removing todo:', err)
+      })
   }
 
   // TODO
@@ -155,6 +161,9 @@ export function EditNote() {
                 <ul>
                   {info.todos.map((todo, idx) => (
                     <li key={idx}>
+                      <button onClick={() => onRemoveTodo(idx)} type='button' className='remove-todo-btn'>
+                        x
+                      </button>
                       <input type='text' value={todo.txt} onChange={(ev) => handleTodoChange(ev, idx)} name={`todo-${idx}`} id={`todo-${idx}`} />
                     </li>
                   ))}

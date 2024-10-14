@@ -19,7 +19,6 @@ export function NoteIndex() {
   const [notes, setNotes] = useState(null)
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     loadNotes()
