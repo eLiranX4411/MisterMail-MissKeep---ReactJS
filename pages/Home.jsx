@@ -21,7 +21,7 @@ export function Home() {
                 <h2 className='mail-title-box'>To Mister Mail APP</h2>
               </div>
             </Link>
-            <Link to='/book'>
+            <Link to='/books'>
               <div className='to-book-app'>
                 <img className='book-logo-home' src='../../../apps/book/img/missBook.png' alt='Google Keep Logo' />
                 <h2 className='book-title-box'>To Miss Book APP</h2>

@@ -7,8 +7,8 @@ export function About() {
         <h1 className='appsy-title'>About Appsy Applications</h1>
         <section className='about-container'>
           <p className='bio'>
-            Welcome to Appsy, where creativity meets productivity! Our suite of applications is designed to help you organize your thoughts, manage
-            your correspondence, and keep your reading list in check. Explore our apps below to find the perfect tools for your daily tasks!
+            Welcome to Appsy, where creativity meets productivity! Our suite of applications is designed to help you organize your thoughts, manage your
+            correspondence, and keep your reading list in check. Explore our apps below to find the perfect tools for your daily tasks!
           </p>
           <main className='apps-container'>
             <Link to='/note'>
@@ -29,7 +29,7 @@ export function About() {
                 </p>
               </div>
             </Link>
-            <Link to='/book'>
+            <Link to='/books'>
               <div className='to-book-app'>
                 <img className='book-logo-home' src='../../../apps/book/img/missBook.png' alt='Google Keep Logo' />
                 <h2 className='book-title-box'>Miss Books</h2>

@@ -33,3 +33,9 @@
 @import './apps/note/cmps/ColorInput.css';
 @import './apps/note/cmps/EditNote.css';
 @import './apps/note/cmps/NotesHeader.css';
+
+/* Book Cmps */
+@import 'cmps/app-header.css';
+@import 'cmps/user-msg.css';
+@import 'cmps/loader.css';
+@import './book-page.css';
