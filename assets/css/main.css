@@ -35,7 +35,12 @@
 @import './apps/note/cmps/NotesHeader.css';
 
 /* Book Cmps */
-@import 'cmps/app-header.css';
-@import 'cmps/user-msg.css';
-@import 'cmps/loader.css';
-@import './book-page.css';
+@import '../../assets/css/apps/book/cmps/user-msg.css';
+@import '../../assets/css/apps/book/cmps/loader.css';
+@import '../../assets/css/apps/book/cmps/book-filter.css';
+@import '../../assets/css/apps/book/cmps/book-list.css';
+@import '../../assets/css/apps/book/pages/book-details.css';
+@import '../../assets/css/apps/book/pages/book-edit.css';
+@import '../../assets/css/apps/book/cmps/star-rating.css';
+@import '../../assets/css/apps/book/cmps/Chart.css';
+@import '../../assets/css/apps/book/cmps/googleBookCard.css';

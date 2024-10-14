@@ -3,15 +3,10 @@ const { Link, NavLink, useLocation } = ReactRouterDOM
 export function AppHeader() {
   const { useState, useEffect, useRef } = React
   const location = useLocation()
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev)
-  }
-
-  const toggleSettingsMenu = () => {
-    setIsSettingsOpen((prev) => !prev)
   }
 
   const NoteHeader = () => (
@@ -145,8 +140,9 @@ export function AppHeader() {
 
   const DefaultHeader = () => (
     <header className='app-header'>
-      <h1 className='app-title'>Appsy App</h1>
-
+      <Link to='/'>
+        <h1 className='app-title'>Appsy App</h1>
+      </Link>
       <nav className='nav-desktop'>
         <NavLink to='/'>Home</NavLink>
         <NavLink to='/about'>About</NavLink>

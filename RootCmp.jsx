@@ -31,12 +31,22 @@ export function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
+          <Route path='*' element={<NotFound />} />
+
+          {/* Mail  */}
+
           <Route path='/mail' element={<MailIndex />} />
           <Route path='/mail/edit/' element={<MailCompose />} />
           <Route path='/mail/details/:mailId' element={<MailCompose />} />
           <Route path='/mail/edit/:mailId' element={<MailCompose />} />
-          <Route path='/note' element={<NoteIndex />} />
-          <Route path='/note/edit/:noteId' element={<EditNote />} />
+          {/* Notes  */}
+
+          <Route path='/note' element={<NoteIndex />}>
+            <Route path='edit/:noteId' element={<EditNote />} />
+          </Route>
+
+          {/* Books  */}
+
           <Route path='/books' element={<BookIndex />} />
           <Route path='/books/:bookId' element={<BookDetails />} />
           <Route path='/books/:bookId/review' element={<AddReview />} />
@@ -44,7 +54,6 @@ export function App() {
           <Route path='/books/edit' element={<BookEdit />} />
           <Route path='/books/edit/:bookId' element={<BookEdit />} />
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='*' element={<NotFound />} />
         </Routes>
       </section>
       <UserMsg />

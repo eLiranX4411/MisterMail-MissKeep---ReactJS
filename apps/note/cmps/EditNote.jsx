@@ -8,6 +8,9 @@ export function EditNote() {
   const { noteId } = useParams()
   const navigate = useNavigate()
 
+  const [imgPreview, setImgPreview] = useState(null)
+  const [videoPreview, setVideoPreview] = useState(null)
+
   useEffect(() => {
     if (noteId) loadNote()
   }, [noteId])
@@ -86,6 +89,41 @@ export function EditNote() {
     })
   }
 
+  // TODO
+  function handleFileChange(ev) {
+    const file = ev.target.files[0]
+
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        setImgPreview(reader.result)
+        setNoteToEdit((prevNote) => ({
+          ...prevNote,
+          info: { ...prevNote.info, url: reader.result }
+        }))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  // TODO
+  function handleVideoChange(ev) {
+    const file = ev.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+
+      reader.onload = () => {
+        setVideoPreview(reader.result)
+        setNoteToEdit((prevNote) => ({
+          ...prevNote,
+          info: { ...prevNote.info, url: reader.result }
+        }))
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
   function onBack() {
     navigate('/note')
   }
@@ -130,8 +168,8 @@ export function EditNote() {
             {type === 'NoteImg' && (
               <React.Fragment>
                 {/* Image */}
-                <label htmlFor='img'>Image URL</label>
-                <input type='text' value={info.img} onChange={handleChange} name='img' id='img' />
+                <label htmlFor='img'>Attach new Img</label>
+                <input type='file' accept='image/*' value={info.img} onChange={handleChange} name='img' id='img' />
                 {info.img && <img src={info.img} alt='Note Image' />}
               </React.Fragment>
             )}
