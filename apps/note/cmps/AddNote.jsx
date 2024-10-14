@@ -1,4 +1,5 @@
 import { noteService } from '../../../apps/note/services/note.service.js'
+import { textIconSvg, todosIconSvg, imgIconSvg, videoIconSvg, colorsIconSvg } from '../../../apps/note/cmps/SvgIcons.jsx'
 
 const { useState, useEffect, useRef } = React
 
@@ -139,43 +140,47 @@ export function AddNote({ handleAddNote }) {
             <div className='note-type-buttons'>
               <button
                 type='button'
+                title='Write a note..'
                 className='txt-btn-note'
                 onClick={() => {
                   setNoteType('NoteTxt')
                   setIsExpanded(true)
                 }}
               >
-                Text
+                {textIconSvg.textIcon}
               </button>
               <button
                 type='button'
+                title='Todo List'
                 className='todos-btn-note'
                 onClick={() => {
                   setNoteType('NoteTodos')
                   setIsExpanded(true)
                 }}
               >
-                Todos
+                {todosIconSvg.todosIcon}
               </button>
               <button
                 type='button'
+                title='Upload Img'
                 className='img-btn-note'
                 onClick={() => {
                   setNoteType('NoteImg')
                   setIsExpanded(true)
                 }}
               >
-                Img
+                {imgIconSvg.imgIcon}
               </button>
               <button
                 type='button'
+                title='Upload Video'
                 className='video-btn-note'
                 onClick={() => {
                   setNoteType('NoteVideo')
                   setIsExpanded(true)
                 }}
               >
-                Video
+                {videoIconSvg.videoIcon}
               </button>
             </div>
           </div>
