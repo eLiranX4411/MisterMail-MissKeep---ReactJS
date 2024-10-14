@@ -5,7 +5,7 @@ export function Home() {
   return (
     <React.Fragment>
       <section className='bkg'>
-        <h1 className='appsy-title'>Welcome To Appsy App!</h1>
+        <h1 className='appsy-title'>Welcome To Appsy Applications!</h1>
         <img src='../assets/img/AppSy.png' alt='' className='appsy-logo' />
         <section className='home-container'>
           <main className='apps-container'>

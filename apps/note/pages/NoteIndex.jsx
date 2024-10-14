@@ -1,6 +1,6 @@
 // Hooks
 const { useState, useEffect, useRef } = React
-const { Link, useSearchParams } = ReactRouterDOM
+const { Link, useSearchParams, Outlet } = ReactRouterDOM
 
 // Services
 import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/event-bus.service.js'
@@ -147,10 +147,6 @@ export function NoteIndex() {
     setFilterBy((preFilter) => ({ ...preFilter, ...filterBy }))
   }
 
-  function toggleMenu() {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
   if (!notes) return <AppLoader />
 
   return (
@@ -174,6 +170,7 @@ export function NoteIndex() {
           onDuplicateNote={onDuplicateNote}
         />
       </section>
+      <Outlet />
     </main>
   )
 }

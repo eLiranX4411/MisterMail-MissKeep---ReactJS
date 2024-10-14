@@ -1,4 +1,4 @@
-import { filterIconSvg } from '../../../apps/note/cmps/SvgIcons.jsx'
+import { searchIconSvg } from '../../../apps/note/cmps/SvgIcons.jsx'
 
 const { useState, useEffect, useRef } = React
 
@@ -48,7 +48,10 @@ export function NotesFilter({ filterBy, onSetFilterBy }) {
       </div>
 
       <div className='search-filter'>
-        <input onChange={handleChange} value={title} type='search' name='title' id='title' placeholder='Search' />
+        <label>
+          {searchIconSvg.searchIcon}
+          <input onChange={handleChange} value={title} type='search' name='title' id='title' placeholder={`Search`} />
+        </label>
       </div>
     </section>
   )

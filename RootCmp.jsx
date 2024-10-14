@@ -29,8 +29,11 @@ export function App() {
           <Route path='/mail/edit/' element={<MailCompose />} />
           <Route path='/mail/details/:mailId' element={<MailCompose />} />
           <Route path='/mail/edit/:mailId' element={<MailCompose />} />
-          <Route path='/note' element={<NoteIndex />} />
-          <Route path='/note/edit/:noteId' element={<EditNote />} />
+
+          <Route path='/note/*' element={<NoteIndex />}>
+            <Route path='edit/:noteId' element={<EditNote />} />
+          </Route>
+
           <Route path='*' element={<NotFound />} />
         </Routes>
       </section>
