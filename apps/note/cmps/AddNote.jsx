@@ -1,4 +1,5 @@
 import { noteService } from '../../../apps/note/services/note.service.js'
+import { makeId } from '../../../services/util.service.js'
 import { textIconSvg, todosIconSvg, imgIconSvg, videoIconSvg, colorsIconSvg } from '../../../apps/note/cmps/SvgIcons.jsx'
 
 const { useState, useEffect, useRef } = React
@@ -34,6 +35,33 @@ export function AddNote({ handleAddNote }) {
       })
       .catch((err) => {
         console.log('Error adding note:', err)
+      })
+  }
+
+  function createMailNote(title, body) {
+    const newNote = {
+      id: makeId(),
+      createdAt: Date.now(),
+      type: 'NoteTxt',
+      isPinned: false,
+      style: {
+        backgroundColor: ''
+      },
+      info: {
+        title: title,
+        txt: body
+      }
+    }
+
+    return noteService
+      .post(newNote)
+      .then((savedNote) => {
+        console.log('Note created successfully:', savedNote)
+        return savedNote.id
+      })
+      .catch((err) => {
+        console.error('Failed to create note:', err)
+        throw err
       })
   }
 
@@ -185,7 +213,7 @@ export function AddNote({ handleAddNote }) {
             </div>
           </div>
 
-          {/* Render expanded content based on the note type */}
+          {/* Render expanded body based on the note type */}
           {isExpanded && (
             <React.Fragment>
               {type === 'NoteTxt' && (

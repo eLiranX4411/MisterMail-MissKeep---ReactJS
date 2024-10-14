@@ -9,6 +9,7 @@ export const noteService = {
   get,
   remove,
   save,
+  post,
   getFilterFromSearchParams,
   debounce,
   getEmptyNote,
@@ -111,6 +112,10 @@ function save(note) {
   } else {
     return storageService.post(NOTE_KEY, note)
   }
+}
+
+function post(note) {
+  return storageService.post(NOTE_KEY, note)
 }
 
 function getEmptyNote() {
