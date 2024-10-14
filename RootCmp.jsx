@@ -37,6 +37,13 @@ export function App() {
           <Route path='/mail/edit/:mailId' element={<MailCompose />} />
           <Route path='/note' element={<NoteIndex />} />
           <Route path='/note/edit/:noteId' element={<EditNote />} />
+          <Route path='/books' element={<BookIndex />} />
+          <Route path='/books/:bookId' element={<BookDetails />} />
+          <Route path='/books/:bookId/review' element={<AddReview />} />
+          <Route path='/books/search-error' element={<SearchError />} />
+          <Route path='/books/edit' element={<BookEdit />} />
+          <Route path='/books/edit/:bookId' element={<BookEdit />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </section>
