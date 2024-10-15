@@ -1,5 +1,6 @@
 import { noteService } from '../../../apps/note/services/note.service.js'
 import { makeId } from '../../../services/util.service.js'
+import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 import { textIconSvg, todosIconSvg, imgIconSvg, videoIconSvg, colorsIconSvg } from '../../../apps/note/cmps/SvgIcons.jsx'
 
 const { useState, useEffect, useRef } = React
@@ -33,9 +34,11 @@ export function AddNote({ handleAddNote }) {
         resetInputs()
         setIsExpanded(false)
         setImgPreview(null)
+        showSuccessMsg('Note Added Sucessfully !')
       })
       .catch((err) => {
         console.log('Error adding note:', err)
+        showErrorMsg('Error adding note!')
       })
   }
 

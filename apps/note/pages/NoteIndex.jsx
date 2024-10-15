@@ -3,7 +3,7 @@ const { useState, useEffect, useRef } = React
 const { Link, useSearchParams, Outlet } = ReactRouterDOM
 
 // Services
-import { showErrorMsg, showSuccessMsg, showUserMsg } from '../../../services/event-bus.service.js'
+import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 import { noteService } from '../../../apps/note/services/note.service.js'
 import { getTruthyValues } from '../../../services/util.service.js'
 
