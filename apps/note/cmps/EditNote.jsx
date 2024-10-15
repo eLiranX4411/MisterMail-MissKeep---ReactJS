@@ -53,8 +53,8 @@ export function EditNote() {
     ev.preventDefault()
     noteService
       .save(noteToEdit)
-      .then((note) => {
-        setNoteToEdit(note)
+      .then((savedNote) => {
+        setNoteToEdit({ ...savedNote })
       })
       .catch((err) => {
         console.log('err:', err)
@@ -66,9 +66,9 @@ export function EditNote() {
 
   function handleTodoChange(ev, idx) {
     const value = ev.target.value
+
     setNoteToEdit((prevNote) => {
-      const updatedTodos = [...prevNote.info.todos]
-      updatedTodos[idx].txt = value
+      const updatedTodos = prevNote.info.todos.map((todo, todoIdx) => (todoIdx === idx ? { ...todo, txt: value } : todo))
       return { ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }
     })
   }
@@ -80,22 +80,13 @@ export function EditNote() {
     })
   }
 
-  // TODO
   function onRemoveTodo(idx) {
-    const updatedTodos = noteToEdit.info.todos.filter((_, todoIdx) => todoIdx !== idx)
-    setNoteToEdit((prevNote) => ({ ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }))
-
-    noteService
-      .save({ ...noteToEdit, info: { ...noteToEdit.info, todos: updatedTodos } })
-      .then(() => {
-        console.log('Todo removed successfully')
-      })
-      .catch((err) => {
-        console.log('Error removing todo:', err)
-      })
+    setNoteToEdit((prevNote) => {
+      const updatedTodos = prevNote.info.todos.filter((_, todoIdx) => todoIdx !== idx)
+      return { ...prevNote, info: { ...prevNote.info, todos: updatedTodos } }
+    })
   }
 
-  // TODO
   function handleFileChange(ev) {
     const file = ev.target.files[0]
 
@@ -112,7 +103,6 @@ export function EditNote() {
     }
   }
 
-  // TODO
   function handleVideoChange(ev) {
     const file = ev.target.files[0]
     if (file) {
@@ -160,7 +150,7 @@ export function EditNote() {
                 <label htmlFor='todos'>Todos:</label>
                 <ul>
                   {info.todos.map((todo, idx) => (
-                    <li key={idx}>
+                    <li key={todo.id}>
                       <button onClick={() => onRemoveTodo(idx)} type='button' className='remove-todo-btn'>
                         x
                       </button>
@@ -168,6 +158,7 @@ export function EditNote() {
                     </li>
                   ))}
                 </ul>
+
                 <button className='add-todo-btn' type='button' onClick={onAddTodo}>
                   Add Todo
                 </button>
@@ -178,8 +169,8 @@ export function EditNote() {
               <React.Fragment>
                 {/* Image */}
                 <label htmlFor='img'>Attach new Img</label>
-                <input type='file' accept='image/*' value={info.img} onChange={handleChange} name='img' id='img' />
-                {info.img && <img src={info.img} alt='Note Image' />}
+                <input type='file' accept='image/*' onChange={handleFileChange} name='img' id='img' />
+                {imgPreview && <img src={imgPreview} alt='Note Image' />}
               </React.Fragment>
             )}
 
@@ -187,10 +178,10 @@ export function EditNote() {
               <React.Fragment>
                 {/* Video */}
                 <label htmlFor='video'>Video URL</label>
-                <input type='text' value={info.video} onChange={handleChange} name='video' id='video' />
-                {info.video && (
+                <input type='file' accept='video/*' onChange={handleVideoChange} name='video' id='video' />
+                {videoPreview && (
                   <video controls>
-                    <source src={info.video} type='video/mp4' />
+                    <source src={videoPreview} type='video/mp4' />
                     Your browser does not support the video tag.
                   </video>
                 )}

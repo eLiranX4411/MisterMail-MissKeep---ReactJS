@@ -7,6 +7,7 @@ const { useState, useEffect, useRef } = React
 export function AddNote({ handleAddNote }) {
   const [noteData, setNoteData] = useState(noteService.getEmptyNote())
   const [isExpanded, setIsExpanded] = useState(false)
+
   const [imgPreview, setImgPreview] = useState(null)
   const [videoPreview, setVideoPreview] = useState(null)
 

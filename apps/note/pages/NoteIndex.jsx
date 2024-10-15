@@ -38,6 +38,12 @@ export function NoteIndex() {
     setNotes((prevNotes) => [...prevNotes, newNote])
   }
 
+  // TODO
+  function handleEditNote(updatedNote) {
+    setNotes((prevNotes) => prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+    showSuccessMsg(`Note updated successfully!`)
+  }
+
   function handleTodoCheck(noteId, idx, isChecked) {
     setNotes((prevNotes) => {
       const updatedNotes = prevNotes.map((note) => {
