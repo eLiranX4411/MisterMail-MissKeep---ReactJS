@@ -17,6 +17,8 @@ import { NotesFilter } from '../../../apps/note/pages/NotesFilter.jsx'
 
 export function NoteIndex() {
   const [notes, setNotes] = useState(null)
+
+  //Search param hook
   const [searchPrms, setSearchPrms] = useSearchParams()
   const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchPrms))
 
@@ -36,12 +38,6 @@ export function NoteIndex() {
 
   function handleAddNote(newNote) {
     setNotes((prevNotes) => [...prevNotes, newNote])
-  }
-
-  // TODO
-  function handleEditNote(updatedNote) {
-    setNotes((prevNotes) => prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
-    showSuccessMsg(`Note updated successfully!`)
   }
 
   function handleTodoCheck(noteId, idx, isChecked) {

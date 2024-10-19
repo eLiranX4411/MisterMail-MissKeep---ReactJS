@@ -42,33 +42,6 @@ export function AddNote({ handleAddNote }) {
       })
   }
 
-  function createMailNote(title, body) {
-    const newNote = {
-      id: makeId(),
-      createdAt: Date.now(),
-      type: 'NoteTxt',
-      isPinned: false,
-      style: {
-        backgroundColor: ''
-      },
-      info: {
-        title: title,
-        txt: body
-      }
-    }
-
-    return noteService
-      .post(newNote)
-      .then((savedNote) => {
-        console.log('Note created successfully:', savedNote)
-        return savedNote.id
-      })
-      .catch((err) => {
-        console.error('Failed to create note:', err)
-        throw err
-      })
-  }
-
   function handleChange({ target }) {
     const evName = target.name
     const evValue = target.value
@@ -282,3 +255,30 @@ export function AddNote({ handleAddNote }) {
     </React.Fragment>
   )
 }
+
+// function createMailNote(title, body) {
+//   const newNote = {
+//     id: makeId(),
+//     createdAt: Date.now(),
+//     type: 'NoteTxt',
+//     isPinned: false,
+//     style: {
+//       backgroundColor: ''
+//     },
+//     info: {
+//       title: title,
+//       txt: body
+//     }
+//   }
+
+//   return noteService
+//     .post(newNote)
+//     .then((savedNote) => {
+//       console.log('Note created successfully:', savedNote)
+//       return savedNote.id
+//     })
+//     .catch((err) => {
+//       console.error('Failed to create note:', err)
+//       throw err
+//     })
+// }

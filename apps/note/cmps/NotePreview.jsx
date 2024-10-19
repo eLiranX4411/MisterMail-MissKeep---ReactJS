@@ -18,7 +18,7 @@ export function NotePreview({ note, handleTodoCheck, onDuplicateNote, onRemoveNo
   }
 
   const noteStyle = {
-    backgroundColor: note.style.backgroundColor || 'white' // Default to white if no color is set
+    backgroundColor: note.style.backgroundColor || 'white'
   }
 
   return (
@@ -29,7 +29,7 @@ export function NotePreview({ note, handleTodoCheck, onDuplicateNote, onRemoveNo
           {trashIconSvg.trashIcon}
         </button>
         <button title='Pin/Unpin Note' onClick={() => onPinnedNote(note.id)}>
-          {note.isPinned ? pinIconSvg.pinIcon : 'Unpin'}
+          {note.isPinned ? 'Unpin' : pinIconSvg.pinIcon}
         </button>
         <button title='Duplicate Note' onClick={() => onDuplicateNote(note.id)}>
           {duplicateIconSvg.duplicateIcon}
